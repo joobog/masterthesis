@@ -1,0 +1,41 @@
+\section{Grundlagen}
+
+
+
+\section{Decision Trees}
+Decision Trees ist ein Algorithmus, der das überwachtes Lernen beherrscht. 
+Decision Trees haben den Vorteil verständlich für den Menschen zu sein. 
+Anhand des Baumes kann man leicht nachvollziehen, wie der Algorithmus den Featurevektoren Werte zuordnet. 
+Aus dem Baum kann man allgemeine Regeln herleiten, die für das untersuchte Problem charakteristisch sind.
+
+\section{Clustering}
+Die Clustering-Algorithmen können eine Menge von Datenpunkten in verschiedene Kategorien einteilen. Ein wesentlicher Leistungsmerkmal vom solch einem Algorithmus ist, ob er Anzahl der Kategorien vorgegeben sein muss oder ob er die Anzahl der Kategorien selber bestimmen kann.
+
+Die Algorithmen, die in der Lage sind die Anzahl der Kategorien selber zu bestimmen, eignen sich vor allem neue Informationen aus Datenmengen zu extrahieren, auch solche Informationen, die für den Menschen nur schwer ersichtlich sind. 
+
+
+
+
+
+\section{Prediction}
+
+The time needed to read some amount of data is influenced by following parameters:
+
+\begin{enumerate}
+	\item number of open file handlers
+	\item access frequency per file handle
+	\item number of seeks in a file
+	\item bytes to read
+\end{enumerate}
+Der Zwischenspeicher beeinflusst stark die Zugriffszeiten auf die Daten. 
+Die meisten Rechner nutzen mehrere Zwischenspeicherschichten mit einer unterschiedlicher Zugriffszeit.
+Da diese Zugriffszeiten sich meisten in Größenordnungen unterscheiden, kann man sie unterschiedlichen Kategorien zuordnen, je nach dem auf welchen Zwischenspeicher man die Daten holt.
+
+\begin{enumerate}
+	\item Disk
+	\item Festplattencache
+	\item Arbeitsspeicher
+	\item L2-Cache
+\end{enumerate}
+
+Diese Information kann z.B. direkt für die Optimierung des Programms genutzt werden oder es wäre auch theoretisch möglich eine Schicht zwischen allen Programmen und dem Speichermedium einzufügen, die Zugriffen auf das Speichermedium von allen Programmen sammelt, ordnet und einen optimalen Zugriff auf dem Speichermedium ausführt.
