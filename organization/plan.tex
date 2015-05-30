@@ -1,0 +1,74 @@
+\begin{verbatim}
+Lieber Eugen,
+hier unsere Notizen.
+Regelmäßiges Treffen: Mittwoch 16 Uhr.
+
+Ziel: 70 Seiten. Unter 50 ist zu wenig...
+
+1. 31. Mai Einleitung, Motivation & Ziele, Strukturskizze der Arbeit
+(grob). => 4 Seiten
+Zusätzlich Skizze für DesignKapitel mit Stichpunkten (d.h. weiter
+ausführen von Kapitel 3., evtl. erste Bilder)
+
+2. 31.05-05.06
+Related Work und Hintergrund (7 Seiten)
+* Machine Learning (Features, Labels), Classification, Clustering,
+K-Cross-Validation
+* Verhalten von I/O Systemen (Caches, Wie läuft I/O Kommunikation ab)
+* SIOX => Architektur aus Papern bzw. dein Wissen klauen.
+Bisher kein Vollständiger Wissenszyklus (Messen => Lernen =>
+Optimieren => Optimieren ...)
+
+06.06-13.06
+3. Design => ca. 15 Seiten
+- Optimierungs/Wissenszyklus Abstrakt
+- Leistungs-Vorhersage (Predictor)
+- Reduktion von Werten zu Klassen => Preprocessing
+- Ursachen-Klassifikator (Cached vs. Uncached mit Labels die von
+Benutzern zu definieren sind). Beispielgraph einfach von Daten
+übernehmen.
+- Extraction von Wissen aus Decision Trees => verweis nach hinten.
+- Einsatz von Decision Tree (parameterisierung) ??? Sonst Implementierung.
+- Beispielhafte Ausgabe eines Programlaufs
+=> Bei Terminierung des Programs wollen wir ja sehen, dass der die
+Gründe und Bewertung vornimmt. Wieviel I/O In Klasse 1, 2....
+(Entsprechend der Namen).
+
+4. Implementation (kurz), ca 5 Seiten
+- Ich habe rumprobiert mit Shark, OpenCV etc. => Vor & Nachteile
+einzelner Bibliotheken => Warum hast du dich für Shogun entschieden.
+Eigene Studie.
+- Wissensextraktionsalgorithmus (Der nicht ging)
+
+14.06  - 21.06:
+5. Evaluation => ca. 15 Seiten
+- Trainingsdaten (welche woher kommen die, wie sehen die Systeme aus...)
+- Genauigkeit der Lösung (K-Cross-validation)
+- Betrachtung der Regeln (Bäume malen)
+- Verhalten bei weniger Trainingsdaten (Inverse Cross-Valdiation).
+- Leistungsverhalten des Machine LEarnings (Wieviel Performance kostet das)
+
+6. Zusammenfassung 1 Seite (hierbei nochmal Einleitung, Hintergrund,
+Related Work schärfen auf Ziele, Struktur in Einleitung anpassen)
+Ausblick => Nachfolgende Arbeiten (Was ist noch zu tun).
+
+
+22-29.06 Korrekturen vornehmen und evtl. Experimente noch ausführen.
+Drucken 29. Juni
+Abgabe 30. Juni
+
+Kapitel immer an Julian schicken, bzw. in GIT Bereitstellen, FAST
+fertige Kapitel (80%).
+
+Bitte Kapitelüberleitungen (kurz was habe ich im Kapitel gelernt, was
+kommt in nächsten Kapitel).
+In Kursiv schreiben.
+Zu beginn eines Kapitels, die Struktur des Kapitels erläutern
+(Kursiv), d.h. der Rote Faden wird immer klar, aber Inhalt hat dort
+NICHTS zu suchen.
+
+Grüße,
+Julian
+
+-- http://wr.informatik.uni-hamburg.de/people/julian_kunkel 
+\end{verbatim}
