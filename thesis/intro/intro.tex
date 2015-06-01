@@ -6,69 +6,74 @@
 \section{Einleitung}
 %%% Problematik %%%
 % Problematik: Geschichtliche Entwicklung
-In der letzten Jahren haben sich die Massenspeicherkapazitäten und Datenbestände vergleichsweise überproportional zu den Datenübertragungsgeschwindigkeiten entwickelt. Die Prozessortechnologie entwickelt sich ebenfalls vergleichsweise rasant und die modernen Multikern-Prozessoren verbringen einen beträchtliche Zeit im Leerlauf, während sie auf die Daten warten.
+In den letzten Jahren konnte man drei Beobachtungen machen: einen exponentiellen Kapazitätswachstum in der Massenspeicherentwicklung, begleitet von einer vergleichsweise langsame Zunahme der Datenübertragungsgeschwindigkeiten, die Integrierung mehrerer Kerne in die Prozessoren und einen explosionsartigen Wachstum von Datenmengen.
+
+Früher war die Erhöhung der Taktfrequenz die Hauptmethode die Prozessorleistung zu steigern. Nachdem aber die physikalischen Grenzen der Halbleiterkomponenten erreicht wurden und die Erhöhung der Taktfrequenz nicht mehr möglich war ist man dazu übergegangen Prozessoren mit mehreren Kernen zu auszustatten. Der Trend hält bis heute an und heute sind in meisten modernen Rechner Multikern-Prozessoren verbaut.
+
+Die Fortschritte in der Massenspeicherentwicklung der letzten Jahre haben vor allem zur höheren Datendichte geführt, was die Herstellung von Geräten mit hoher Kapazität ermöglicht hat. Der Kapazitätswachstum, wie im Moore'schen Gesetz bereits formuliert, hat sich etwa alle anderethalb bis zwei Jahre verdoppelt bei gleichzeitig sinkendem Preis pro Speichereinheit.
+
+Laut dem Bericht von IDC-Studie \cite{idc} verdoppelt sich auch das weltweite Datenvolumen alle zwei Jahre. Im Jahr 2013 wurde der Gesamtdatenvolumen auf etwas 4.4 Zetabyte geschätzt. Im Jahr 2020 soll dieser Wert auf 44 Zetabyte steigen. Die Datenproduktion wir von steigender Zahl der Geräte, wie digitale Kameras, mehr Leute produzieren Daten, es gibt immer mehr datenbasierte Dienste, wie Online-Data-Clouds.
 
 
 \subsection{Problematik}
+Die in der Vergangenheit unausbalancierte Entwicklung hat heute zu gewissen Problemen geführt.
 % Problematik: E/A-Flaschenhals 
-Die Massenspeichermedien oder deren Datenübertragunskanäle sind oft die langsameren High-Performance-Computer-Komponenenten und bilden unter bestimmten Bedingungen einen Flaschenhals, der sich negativ auf die Reaktionszeiten und Datendurchsatz des Systems aufwirkt. Die Ursache dafür sind meisten viele gleichzeitige E/A-Zugriffe, z.B. bei gleichzeitigen Zugriff auf viele kleine Dateien oder durch eine Vielzahl parallellaufenden E/A-lastigen Prozessen. Insbesondere als störend wird dieses Problem von Menschen bei interaktiven Systemen empfunden aber auch bei Computern, die im Hintergrund laufen kann es zu langen Prozesslaufzeiten führen und als störend sein.
+So sind die Massenspeichermedien und deren Anbindung oft die langsameren Komponenten in einem Computer und bilden unter bestimmten Bedingungen einen Flaschenhals, der sich negativ auf die Antwortzeiten, Datendurchsatz und Auslastung des Systems aufwirkt. 
+
+Ganz besonders betroffen davon sind die High-Performance-Computer und die Server, wenn darauf viele Benutzer gleichzeitig arbeiten oder wenn große Datenmenge verarbeit werden. Viele Benutzer können durch viele gleichzeitige E/A-Zugriffe, z.B. durch Lesen von einer Vielzahl von kleinen Dateien oder durch Ausführen von E/A-lastige Prozessen, schnell die Grenzen der Hardware ausreizen. Das führt zu höheren Systemreaktionszeiten, die von Menschen als besonders störend empfunden wird. Bei Computern, die E/A-lastige Hintergrunddienste ausführen, macht sich das Problem durch geringen Systemauslastung bemerkbar. Die Ursache ist für beide Symptome gleich: die Prozessoren verbringen eine beträchtliche Zeit im Leerlauf, währen sie auf die Daten warten. 
 
 % Problematik: Nutzung von IT-Systemen
-Zwei großen Bereiche, in dem an auf hohe E/A-Leistung angewiesen ist, sind OLAP (Online Analytical Procesing) und OLTP (Online Transaction Processing). Im OLAP-Bereich nutzt man die Daten für die Informationsgewinnung, die den Führungskräften und Managern bei der Entscheidungen helfen. Hierbei liegt die Fokus auf den kurzen Reaktionzeiten. Im OLAP-Bereich hingegen geht es um die konsistente Verarbeitung von Transaktionen, wobei die Transaktionenzahl hierbei die massgebende Größe ist. Es gibt viele weitere Bereiche, die mit immer größerer E/A-Last betroffen sind, z.B. die Verarbeitung der Messdaten in der Klimaforschung, Datensicherung in den sicherheitsbewussten Unternehmen oder auf Server, wo die grosse E/A-Last durch viele kleine Clientanfragen verursacht wird.
+In der Wirtschaft gibt es zwei große Bereiche, die auf hohe E/A-Leistung angewiesen sind. Das sind OLAP (Online Analytical Procesing) und OLTP (Online Transaction Processing). Im OLAP-Bereich nutzt man relativ große Datenbestände für die Informationsgewinnung. Die gewonnen Informationen sollen den Führungskräften und Managern bei den Entscheidungen helfen und deshalb liegt hier der Fokus auf den kurzen Reaktionszeiten. Im OLAP-Bereich hingegen geht es um die Datenspeicherung. Das Ziel ist die Daten im konsistenten Zustand zu behalten und die Transaktionenzahl zu maximieren.Diese beiden Bereiche sind wahrscheinlich von dem Problem am schlimmsten betroffen.
 
+Es gibt zahlreiche weitere Bereiche, die nicht weniger stark von dem Problem betroffen sind, z.B. die Verarbeitung der Messdaten in der Klimaforschung, Datensicherung im Unternehmen, interaktiven Knoten, auch private Computer.
 
-\subsection{Etablierte Lösungsansätze}
+\subsection{Überblick über die Lösungsansätze}
 %%% Techniken um die E/A-Leistung zu verbessern %%%
-Die Systembetreiber und die Wissenschaftler bemühen sich das Problem mit verschiedenen Techniken in den Griff zu bekommen. 
+Die Systemhersteller, Systembetreiber und die Wissenschaftler bemühen sich das Problem mit verschiedenen Techniken in den Griff zu bekommen. 
 
 % Raid
 Viele Systeme, insbesondere Server und HPC-Systeme, sind mit Raid-Verbunden ausgestattet, wobei jedes Raid-Typ ein oder mehrere Ziele verfolgen kann. Die meisten Raid-Verbunde versuchen jedoch ein Kompromiss zwischen Leistung, Datensicherheit und Kosten zu finden, wobei die Ziele gegeneinander gerichtet sind, was bedeutet, dass man das eine nicht verbessern kann ohne das andere zu verschlechtern. Die relativ hohen Anschaffungs-, Betriebs- und Wartungskosten machen die Raid-Systeme nur bis zur einer gewissen Größe wirtschaftlich. Ausserdem erreichen die Raid-Verbunde eine höhere Leistung nur für Daten ab einer bestimmten Größe. Der Grund liegt in der Funktionsweise der Raid-Verbunde. Sie zerteilen die Daten in die s.g. Chuncks und schreiben diese Daten parallel auf mehrer Massenspeicherkomponeneten. Wenn die Daten nicht auf mehrere Chunks zerteilen lassen, dann kann keine paralleler Schreibzugriff stattfinden, deshalb auch kein Leistungsgewinn. Für den Lesezugriff gilt die analoge Logik.
 
 % Cache
-Die Caches eine weitere weitverbreite Methode die E/A-Leistung zu verbessern. Dabei werden die oft genutzte oder voraussichtlichtlich bald benötigte Daten auf einem schnelleren Datenträger zwischenzuspeichert, z.B. ist in den meisten modernen Internet-Browsern das HTTP-Caching implementiert. Die Inhalte der Webseiten werden auf der Festplatte abgelegt, um beim wiederholten Zugriff bereits besuchte Seiten schnell aufzubauen und unnötigen Datenverkehr zu vermeiden. Einige HPC-Anbieter, insbesondere, die OLTP-Datenbankenbetreiber (On-Line-Transaction Processing), bauen zusätztlich zu Festplattenverbunden SSD-Zwischenspeicher in Ihre Systeme ein, um die Transaktionenanzahl zu erhöhen. 
-Das Dateisystem ZFS bittet die Möglichkeit Arbeitsspeicher als Cache zu nutzen.
+Die Caches eine weitere weitverbreitete Methode die E/A-Leistung zu verbessern. Dabei werden die oft genutzte oder voraussichtlich bald benötigte Daten auf einem schnelleren Datenträger zwischenzuspeichert, z.B. ist in den meisten modernen Internet-Browsern das HTTP-Caching implementiert. Die Inhalte der Webseiten werden auf der Festplatte abgelegt, um beim wiederholten Zugriff bereits besuchte Seiten schnell aufzubauen und unnötigen Datenverkehr zu vermeiden. Einige HPC-Anbieter, insbesondere, die OLTP-Datenbankenbetreiber (On-Line-Transaction Processing), bauen zusätzlich zu Festplattenverbunden SSD-Zwischenspeicher in Ihre Systeme ein, um die Transaktionenanzahl zu erhöhen. 
+Das Dateisystem ZFS bittet die Möglichkeit Arbeitsspeicher als Cache zu nutzen. \todo{ZFS erläutern}
 
 % Hardware
 Ein direkter Weg die E/A-Leistung zu verbessern ist die Verbesserung der Hardware und hier können wir wahrscheinlich die meisten Entwicklungen sehen. Als Beispiel kann man die Entwicklung von Massenspeicher anschauen. Während der gesamten Entwicklung wurden die Drehzahlen der Festplatten erhöht, die Schreib- / Lesekopfgeschwindigkeiten verbessert, die Datendichte, die Cachegröße und die unterschiedliche Zugriffsstrategien und Optimierung der Schreib- /Lesekopfwegen angewendet. Die letzten Generationen der Festplatten wurden mit Edelgas befüllt und haben Flüssigkeitsgleitlager. Einen wesentlichen Schritt hat man mit der Einführung der SSD gemacht. 
 
+% Busse
+\todo{IDE, SATA, SAS fehlt}
+
 % Ausnutzung der Lokalität
-Leistungssteigerung ist auch direkt bei der Programmierung möglich, z.B. kann man die Lokalität der Daten ausnutzen. Wenn man genau weiss wie die Daten im Speicher abgelegt werden, dann kann man sein E/A-Befehl auf kleine Anzahl von E/A-Zugriffen optimieren. Allerdings setzt dies ein tiefes Verständnis des Systems und sehr guten Kenntnisse in einer hardwarenahen Programmiersprache voraus. In der Praxis ist diese Methode nur auf einfache Fälle anwendbar. Ausserdem garantiert es nicht, dass die Optimierungen auf anderen Rechner genauso effezient laufen. Fertige Programme kann man nicht optimieren.
+Leistungssteigerung ist auch direkt bei der Programmierung möglich, z.B. kann man die Lokalität der Daten ausnutzen. Wenn man genau weiß wie die Daten im Speicher abgelegt werden, dann kann man sein E/A-Befehl auf kleine Anzahl von E/A-Zugriffen optimieren. Allerdings setzt dies ein tiefes Verständnis des Systems und sehr gute Kenntnisse in einer hardwarenahen Programmiersprache voraus. In der Praxis ist diese Methode nur auf einfache Fälle anwendbar. Außerdem garantiert es nicht, dass die Optimierungen auf anderen Rechner genauso effizient laufen. Fertige Programme kann man nicht optimieren.
 
 % Loesungsansaetze sind nicht ausreichend
-Trozt allen Bemühungen verschärft sich das Problem zunehmend und stellt eine Herausforderung an die Forscher eine wirtschaftliche und leistungsfähige Lösung zu entwickeln. Zahlreiche Unternehmen und Forschungseinrichtungen haben das Problem bereits angegangen und zahlreichen Projekte gestartet, die sehr unterschiedliche Wege gehen.
+Trotz allen Bemühungen verschärft sich das Problem zunehmend und stellt eine Herausforderung an die Forscher eine wirtschaftliche und leistungsfähige Lösung zu entwickeln. Zahlreiche Unternehmen und Forschungseinrichtungen haben das Problem bereits angegangen und zahlreiche Projekte gestartet, die sehr unterschiedliche Wege gehen.
 
-
-\subsection{Aktuelle Forschung}
 % aktuelle Forschung
-HP forscht an einem neuartigen Datenspeicher \cite{hp_memristor_future}, der mit Hilfe von Memristoren realisiert werden und den flüchtigen schnellen Arbeitsspeicher und den nichtflüchtigen langsamen Massenspeicher vereinheitlichen soll. Solch ein Speicher ermöglicht auch eine Computerarchitektur, in der die E/A-Problematik zumindest lokal wesentlich entschärft werden kann. Der erste Prototyp soll laut dem Zeitplan im Jahr 2017 erscheinen und im Jahr 2020 soll die Rechner dem breiten Markt verfügbar sein. 
+HP forscht an einem neuartigen Datenspeicher \cite{hp_memristor_future}, der mit Hilfe von Memristoren realisiert werden und den flüchtigen schnellen Arbeitsspeicher und den nichtflüchtigen langsamen Massenspeicher vereinheitlichen soll. Solch ein Speicher ermöglicht auch eine Computerarchitektur, in der die E/A-Problematik zumindest lokal wesentlich entschärft werden kann. Der erste Prototyp soll laut dem Zeitplan im Jahr 2017 erscheinen und im Jahr 2020 sollen die Rechner dem breiten Markt verfügbar sein. 
 
-Eine andere interesante Forschungsrichtung ist die optimale Parametrisierung der E/A-Aufrufe. Hierbei geht man davon aus, dass Systeme, die parametrisierte E/A-Aufrufe anbieten, das Potenzial haben mit optimalen Parametern beschleunigt zu werden. Die Schwierigkeit dabei für jeden E/A-Aufruf die optimalen Parameter individuell zu bestimmen. Wie die Arbeit von J. Kunkel mit Parametrisierung von MPI-Aufrufen zeigt, kann die Leistung theoretisch wesentlich verbessert werden. \todo{Verbessern}
-
-\todo{Weitere Beispiele}
-\todo{Anforderungen}
+Eine andere interessante Forschungsrichtung ist die Optimierung der E/A-Aufrufe. In einem Zweig geht man davon aus, dass Systeme, die parametrisierten E/A-Aufrufe anbieten das Potenzial haben mit optimalen Parametern beschleunigt zu werden. Die Schwierigkeit dabei für jeden individuellen E/A-Aufruf die optimalen Parameter zu bestimmen und zu übergeben. Schafft man das, dann kann die Leistung in vielen Fällen zumindest theoretisch wesentlich verbessert werden. In einem anderen Zweig versucht man die E/A-Zugriffe so zuordnen, damit möglichst optimal auf die Hardware abgestimmt sind. Beides ist universell anwendbar, kann als Software implementiert werden und relativ kostengünstig dem breiten Publikum zur Verfügung gestellt werden.
 
 \subsection{Motivation und Ziele}
-Oft ist eine kostengünstige und universelle Leistungsteigerungsmethode ist die Optimierung der bestehenden Systeme. Eine Optimierungssoftware kann Expertenwissen beinhalten und weniger erfahrene Benutzer bei der Optimierung unterstützen oder sogar diese Aufgabe vollständig übernehmen. Ein weiterer Vorteil von Software ist ihre Vervielfältungsmöglichkeit und somit auch Möglichkeit der Nutzung im breiten Publikum.
+Wie im vorherigen Abschnitt bereits angedeutet, kommen bei der Realisierung der E/A-Systeme verschiedene Hard- und Software-Technologien zum Einsatz, z.B beim Zugriff auf die Festplatten spielt das Dateisystem, Bus, Blockgröße, diverse Caches usw. eine Rolle. Alle Komponenten stehen in einem komplexen Zusammenhang miteinander und führen zu Leistungseinbußen bei einer suboptimalen Konfiguration. Die Abstimmung der Komponenten aufeinander alleine erfordert meistens schon Expertenwissen, hinzu kommt noch Abstimmung der Komponenten auf die Nutzung, die in manchen Fällen variieren und unvorhersagbar sein kann. Eine universelle Methode oder sogar eine Software, die diese Aufgabe erleichtert, wäre hier sehr willkommen. Dazu fehlt allerdings noch die Grundlage, weil Vorgänge auf der E/A-Ebene wurden bisher nicht ausreichend untersucht sind. Es fehlt Wissen über die Zugriffsmuster, die bei der komplexen Nutzung entstehen, deren Ursachen und Auswirkungen auf die Systemleistung. Dementsprechend fehlen auch Gegenmaßnahmen zur Vermeidung von unerwünschten Situationen.
 
-Ein Möglichkeit E/A-Zugriffe zu beschleunigen ist sie mit den optimalen Parametern aufzurufen, sofern die E/A-Aufrufe parametresierbar sind. Dies erfordert natürlich Kenntnisse, was die richtige Parameter sind. Genau damit befasst sich der Rest der Arbeit, nämlich mit den Methoden, wie man diese Kenntnisse erlangen kann.
+Eine einfache und gleichzeitig effektive Methode könnte die Parameteroptimierung bei parametrisierbaren E/A-Zugriffen sein. Der Gedanke geht davon aus, dass die an die aktuelle Situation dynamisch angepasste Parameter bei manchen Systemen zur einer wesentlich besseren Leistung führen können, als die statisch festgelegten Werte. Das Ziel wäre dann solch eine Methode zu entwickeln und zu untersuchen.
 
 % messen und verstehen
 % Programm Verhalten
 % Machine Learning
 % Rule Extraction
-Als erstes wird das E/A-Verhalten von einigen Programmen mit Hilfe von Machine-Learning-Methoden und dem SIOX-Tool analysiert. Die Analyse soll Regeln liefern, nachdem die E/A-Zugriffe funktionren. Im zweiten Schritt wird eine hypotetische Situation dargestellt, in der eine Beispielprogramm mit nicht optimierten und optimierten Parametern zugreift.  Machine-Lerning-Algorithmus trainiert werden, um die optimalen Parameter zu wählen.
-
-Um die E/A-Leistung zu verbessern wurden diverse Techniken entwickelt auf verschiedenen Software- und Hardware-Ebenen. E/A-Problematik besteht immer noch und die Forschung geht weiter. Optimierung, Hardwarezusammenstellung, neue Komponenten.
 
 \subsection{Aufgabenstellung}
 %%% Vorgehensweise: Potezial pruefen, Potenzial nutzen, Wissen ableiten %%%
 % Werkzeuge: Machine Learning, SIOX
-Im Allgemeinen können wir die E/A-Leistung verbessern, wenn wir die Vorgänge auf der E/A-Ebene vollständig verstehen. Diese Arbeit wirft einen Blick hinter die Kulissen. Es soll geprüft werden ob ein Potenzial zur Leistungsverbesserung vorhanden ist und wie hoch ist der theoretischer Wert. Mit Hilfe von Machine-Learning-Algorithmen sollen die E/A-Zugriffe analysiert werden und eine Methode entwickelt werden, das Potential zu analysieren und zu nutzen. Zur Datensammplung wird das Tool SIOX verwendet. Es fängt alle Systemaufrufe vom Programm ab und stellt sie für die Analyse zur Verfügung. Die Datenmenge soll auf Anomalien und Strukturen untersucht werden. Die Ursache für die Entstehung der Anomalien und die Strukturbildung soll erklärt werden.
+Diese Arbeit soll ein Blick hinter die Kulissen auf der E/A-Ebene werfen und einige Parameter identifizieren, die ein Einfluss auf die Systemleistung haben. Dann soll geprüft werden, inwieweit die Parameteroptimierung eine Leistungsverbesserung hervorrufen kann und das Potenzial bestimmt werden. Schließlich soll eine Methode zur systematischen Analyse und Optimierung mit Hilfe von Machine-Learning-Algorithmen entwickelt werden. 
 
+%Zum Erfassen von E/A-Zugriffen wird SIOX verwendet werden, ein Tool fängt alle Systemaufrufe vom Programm ab und stellt sie für die Analyse zur Verfügung. Die Datenmenge soll auf Anomalien und Strukturen untersucht werden. Die Ursache für die Entstehung der Anomalien und die Strukturbildung soll erklärt werden.
 
 \subsection{Aufbau der Arbeit}
 % Verwandte Arbeiten: 6 Stueck
-
 % Theorie:
 	% Begriffe: aus Machine-Learning, zur Leistungsbeschreibung
 	% Techniken: Arbeitsweise von Cache, Festplattenmechanik, Betriebsysteme
@@ -77,4 +82,4 @@ Im Allgemeinen können wir die E/A-Leistung verbessern, wenn wir die Vorgänge a
 % Implementierung: Predictor, Classificator, Rule Extraction
 % Auswertung: 
 % Schlussworte
-Zur Beginn werden einige verwandte Arbeiten aus dem Bereich der E/A-Zugriffsoptimierung vorgestellt. Im folgenden theoretischen Teile werden die relevanten Begriffe definiert, die Funktionsweise der aktuellen Technologie erläutert und die benutzten Werkzeuge vorgestellt. Darauf folgt die Beschreibung der eigentlicher Arbeit, die im Rahmen dieser Thesis behandelt werden soll. Im darauf folgendem praktischen Teil wird die Umsetzung vorgestellt und die Ergebnisse ausgewertet. Zum Schluss gibt es noch eine Zusammenfassung und ein Ausblick auf weitere Forschungsmöglichkeiten.
+Das zweite Kapitel stellt einige verwandte Arbeiten aus dem Bereich der E/A-Zugriffsoptimierung vor. Im dritten Kapitel werden die theoretischen Aspekte behandelt. Dort werden die relevanten Begriffe definiert, die Funktionsweise der aktuellen Technologie erläutert und die benutzten Werkzeuge vorgestellt. Im vierten Kapitel befindet sich die Beschreibung der eigentlicher Arbeit, die im Rahmen dieser Thesis behandelt werden soll. Im fünften Kapitel wird die Umsetzung vorgestellt und die Ergebnisse ausgewertet. Zum Schluss gibt es noch eine Zusammenfassung und den Ausblick auf weitere Forschungsmöglichkeiten.

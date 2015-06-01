@@ -2,20 +2,27 @@
 %%There is just one section and two subsections.
 
 \documentclass[12pt,a4paper]{article}
+%\usepackage[showframe]{geometry}
 \usepackage{geometry}
-\usepackage{a4wide}
+
+% disable annoying marginpar warning
+\usepackage{silence}
+\WarningFilter{latex}{Marginpar}
+
+%\usepackage{a4wide}
 \usepackage[utf8]{inputenc}
 \usepackage[ngerman]{babel}
 %\usepackage[english]{babel} 
 
-%\setlength{\marginparwidth}{3.5cm}
+%\newgeometry{marginparsep=0mm, left=2cm,right=2cm,top=2cm,bottom=2cm}
 \usepackage[textwidth=2cm]{todonotes}
+\setlength{\marginparwidth}{2cm}
 \presetkeys{todonotes}{color=green!30,size=\scriptsize}{}
 
 \usepackage{amsmath}
 \usepackage{mathrsfs}
 \usepackage{subfigure}
-%\usepackage{url}
+\usepackage{url}
 
 \usepackage{colortbl}
 \usepackage{color}
@@ -49,11 +56,11 @@
 %\usepackage{pgfmath}
 \input{tikzstuff}
 %\usepackage{tikz-uml}
-%\newgeometry{marginparsep=0pt, left=2cm,right=2cm,top=2cm,bottom=2cm}
 \newcommand{\dir}{/home/joobog/git/masterthesis/thesis}
 
 \begin{document}
-
+\listoftodos
+\newpage
 %\subimport{./}{plan}
 %\subimport{titlepage/}{titlepage}
 %\tableofcontents
@@ -61,11 +68,10 @@
 %\subimport{abstract/}{abstract}
 \subimport{intro/}{intro}
 \subimport{basics/}{basics}
-\subimport{design/}{design}
-\subimport{implementation/}{implementation}
-\subimport{evaluation/}{evaluation}
-\subimport{conclusion/}{conclusion}
+%\subimport{design/}{design}
+%\subimport{implementation/}{implementation}
+%\subimport{evaluation/}{evaluation}
+%\subimport{conclusion/}{conclusion}
 \bibliographystyle{ieeetr}
 \bibliography{literature/literature.bib}
-
 \end{document}
