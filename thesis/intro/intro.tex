@@ -17,6 +17,9 @@ Laut dem Bericht von IDC-Studie \cite{idc} verdoppelt sich auch das weltweite Da
 
 
 \subsection{Problematik}
+
+\todo{1) Hardware ist langsam, wächst langsam, 2) Benutzung oft ineffizient, deswegen nur 10\% Leistung, z.b. Random I/O etc., tuning z.b. mit Hints, aber welche Hints sollen gesetzt werden 3) Analyse und Optimierung von E/A ist wichtig, wie geht das z.B. Vampir, Darshan und SIOX, Problem: Bewertung von Leistung, SIOX versucht das, aber ist sehr rudimentär, basierend auf modellen. Umständlich.}
+
 Die in der Vergangenheit unausbalancierte Entwicklung hat heute zu gewissen Problemen geführt.
 % Problematik: E/A-Flaschenhals 
 So sind die Massenspeichermedien und deren Anbindung oft die langsameren Komponenten in einem Computer und bilden unter bestimmten Bedingungen einen Flaschenhals, der sich negativ auf die Antwortzeiten, Datendurchsatz und Auslastung des Systems aufwirkt. 
@@ -33,11 +36,13 @@ Es gibt zahlreiche weitere Bereiche, die nicht weniger stark von dem Problem bet
 Die Systemhersteller, Systembetreiber und die Wissenschaftler bemühen sich die Probleme mit verschiedenen Techniken in den Griff zu bekommen. 
 
 % Raid
-Viele Systeme, insbesondere Server und HPC-Systeme, sind mit Raid-Verbunden ausgestattet, wobei jedes Raid-Typ ein oder mehrere Ziele verfolgen kann. Die meisten Raid-Verbunde versuchen jedoch ein Kompromiss zwischen Leistung, Datensicherheit und Kosten zu finden, wobei die Ziele gegeneinander gerichtet sind, was bedeutet, dass man das eine nicht verbessern kann ohne das andere zu verschlechtern. Die relativ hohen Anschaffungs-, Betriebs- und Wartungskosten machen die Raid-Systeme nur bis zur einer gewissen Größe wirtschaftlich. Ausserdem erreichen die Raid-Verbunde eine höhere Leistung nur für Daten ab einer bestimmten Größe. Der Grund liegt in der Funktionsweise der Raid-Verbunde. Sie zerteilen die Daten in \todo{evtl. hier weiter Ausbauen,\\oder vielleicht besser im nächsten Kapitel} Blöcke und schreiben diese sie parallel auf mehrere Massenspeicher. Wenn die Daten nicht auf mehrere Blöcke zerteilen lassen, dann kann keine paralleler Schreibzugriff stattfinden, deshalb auch kein Leistungsgewinn. Für den Lesezugriff gilt die analoge Logik.
+Viele Systeme, insbesondere Server und HPC-Systeme, sind mit Raid-Verbunden ausgestattet, wobei jedes Raid-Typ ein oder mehrere Ziele verfolgen kann. Die meisten Raid-Verbunde versuchen jedoch ein Kompromiss zwischen Leistung, Datensicherheit und Kosten zu finden, wobei die Ziele gegeneinander gerichtet sind, was bedeutet, dass man das eine nicht verbessern kann ohne das andere zu verschlechtern. Die relativ hohen Anschaffungs-, Betriebs- und Wartungskosten machen die Raid-Systeme nur bis zur einer gewissen Größe wirtschaftlich. Ausserdem erreichen die Raid-Verbunde eine höhere Leistung nur für Daten ab einer bestimmten Größe. Der Grund liegt in der Funktionsweise der Raid-Verbunde. Sie zerteilen die Daten in \todo{evtl. hier weiter Ausbauen,\\oder vielleicht besser im nächsten Kapitel} Blöcke und schreiben diese sie parallel auf mehrere Massenspeicher. Wenn die Daten nicht auf mehrere Blöcke zerteilen lassen, dann kann keine paralleler Schreibzugriff stattfinden, deshalb auch kein Leistungsgewinn. Für den 
+Lesezugriff gilt die analoge Logik.
 
 %\todo{Parallele Dateisysteme auch hier erwähnen, RAID ist ein älterer Hut}
 % Parallele verteilte Dateisysteme
-Verteilte Dateisystem fassen mehrere entfernte Massenspeicher zu einem Dateisystem zusammen. Für den Benutzer bleibt die verteilte Struktur Dateisystems nicht sichtbar und er kann darauf wie auf lokales Dateisystem zugreifen. Somit erfüllen die verteilte Dateisysteme das Zugriffstransparenzkriterium. Die Kommunikation mit dem Dateisystem läuft über eine fest definierte Schnittstelle ab und macht die verteilten Dateisysteme betriebssystem- und hardwareunabhängig. Eine Besonderheit von vielen modernen verteilten Dateisystemen ist ihre Fähigkeit parallel auf die Daten zuzugreifen. Sie dabei können verschiedene Strategien verwenden. Ähnlich wie die Raid-Verbunde, können sie die Dateien in mehrere Blöcke zerteilen und parallel auf mehrere Massenspeicher verteilen. \todo{Information prüfen und\\Quelle finden.} {\color{red} Wenn die Dateien nicht in genügend kleine Blöcke zerteilen lassen, dann ergeben sich auch ähnliche Nachteile wie bei den Raid-Verbunden. Das wird zum Teil dadurch kompensiert, dass auch mehrere kleine Dateien ebenfalls parallel geschrieben werden können.} Bekannte Vertreter dieser Dateisystemfamilie in HPC-Bereich sind Lustre, GPFS. \todo{Relevanz von Cache}
+Verteilte Dateisystem fassen mehrere entfernte Massenspeicher zu einem Dateisystem zusammen. Für den Benutzer bleibt die verteilte Struktur Dateisystems nicht sichtbar und er kann darauf wie auf lokales Dateisystem zugreifen. Somit erfüllen die verteilte Dateisysteme das Zugriffstransparenzkriterium. Die Kommunikation mit dem Dateisystem läuft über eine fest definierte Schnittstelle ab und macht die verteilten Dateisysteme betriebssystem- und hardwareunabhängig. Eine Besonderheit von vielen modernen verteilten Dateisystemen ist ihre Fähigkeit parallel auf die Daten zuzugreifen. Sie dabei können verschiedene Strategien verwenden. Ähnlich wie die Raid-Verbunde, können sie die Dateien in mehrere Blöcke zerteilen und parallel auf mehrere Massenspeicher verteilen. \todo{Information prüfen und\\Quelle finden.} {\color{red} Wenn die Dateien nicht in genügend kleine Blöcke zerteilen lassen, dann ergeben sich auch ähnliche Nachteile wie bei den Raid-Verbunden. Das wird zum Teil dadurch kompensiert, dass auch mehrere 
+kleine Dateien ebenfalls parallel geschrieben werden können.} Bekannte Vertreter dieser Dateisystemfamilie in HPC-Bereich sind Lustre, GPFS. \todo{Relevanz von Cache}
 
 % Cache
 Die Caches eine weitere weitverbreitete Methode die E/A-Leistung zu verbessern. Dabei werden die oft genutzte oder voraussichtlich bald benötigte Daten auf einem schnelleren Datenträger zwischenzuspeichert, z.B. ist in den meisten modernen Internet-Browsern das HTTP-Caching implementiert. Die Inhalte der Webseiten werden auf der Festplatte abgelegt, um beim wiederholten Zugriff bereits besuchte Seiten schnell aufzubauen und unnötigen Datenverkehr zu vermeiden. 
@@ -85,6 +90,18 @@ Gegenmaßnahmen zur Vermeidung von unerwünschten Situationen.
 %\todo{Das ist noch etwas unkonkret}
 %Diese Arbeit soll ein Blick hinter die Kulissen auf der E/A-Ebene werfen und einige Parameter identifizieren, die ein Einfluss auf die Systemleistung haben. Dann soll geprüft werden, inwieweit die Parameteroptimierung eine Leistungsverbesserung hervorrufen kann und das Potenzial bestimmt werden. Schließlich soll eine Methode zur systematischen Analyse und Optimierung mit Hilfe von Machine-Learning-Algorithmen entwickelt werden. 
 
+Ziel der Arbeit ist die Analyse und Bewertung von Ein-/Ausgabe-Operationen mittels maschinellem Lernen vorzunehmen.
+Hierfür wird das SIOX-Framework erweitert um das maschinelle Lernen zu ermöglichen und Bewertungs-Plugins mit verschiedenen Granularitäten erstellt.
+Im Detail gliedern sich die Teilziele des Projektes in:
+\begin{itemize}
+\item Workflow ...
+\item Vorhersage von Durchsatz von E/A-Operationen
+\item Bewertung der E/A-Operationen, zur Laufzeit des Programms, evtl. terminierung Ausgabe der Bewertung... bissl ausbauen, Cached uncached.
+\item Wissensgewinn vermöge extraktion von Regeln 
+\end{itemize}
+
+\todo{Noch ein prickelnder Schlussatz}
+
 Das primäre Ziel ist es einen Performance-Predictor und einen Classificator zu bauen, die das Systemverhalten widerspiegeln und dann mit den beiden Tools ein Parametrisierungstool erstellen, der für den beabsichtigten E/A-Zugriff möglichst optimale Parameter liefert. Der Performance-Predictor und Classificator werden mit Hilfe von Machine-Learning realisiert.
 
 Das sekundäre Ziel ist es versuche Regeln aus den Predictor zu extrahieren, die das Systemverhalten beschreiben. Dazu wird die interne Struktur von bereits trainierten Machine-Learning-Modelle im Performance-Predictor untersucht und das Zustandekommen von Entscheidungen in einer kurzen und menschenleserlichen Form notiert.
@@ -105,6 +122,7 @@ Das sekundäre Ziel ist es versuche Regeln aus den Predictor zu extrahieren, die
 % Auswertung: 
 % Schlussworte
 \todo{Am Ende nochmal überarbeiten}
+\todo{Etwas detaillierter}
 Das zweite Kapitel stellt einige verwandte Arbeiten aus dem Bereich der E/A-Zugriffsoptimierung vor. Im dritten Kapitel werden die theoretischen Aspekte behandelt. Dort werden die relevanten Begriffe definiert, die Funktionsweise der aktuellen Technologie erläutert und die benutzten Werkzeuge vorgestellt. 
 Das vierten Kapitel beschreibt das Design des Predictors und des Classificators und erklärt wie man mit diesen beiden Werkzeugen ein Parametrisierungstool zum setzen von optimalen Parametern bauen kann.
 Im fünften Kapitel wird die Umsetzung vorgestellt und die Ergebnisse ausgewertet. Zum Schluss gibt es noch eine Zusammenfassung und den Ausblick auf weitere Forschungsmöglichkeiten.
