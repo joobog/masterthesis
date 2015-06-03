@@ -30,11 +30,14 @@ Es gibt zahlreiche weitere Bereiche, die nicht weniger stark von dem Problem bet
 
 \subsection{Überblick über die Lösungsansätze}
 %%% Techniken um die E/A-Leistung zu verbessern %%%
-Die Systemhersteller, Systembetreiber und die Wissenschaftler bemühen sich das Problem\todo{eben waren es noch mehrere Probleme} mit verschiedenen Techniken in den Griff zu bekommen. 
+Die Systemhersteller, Systembetreiber und die Wissenschaftler bemühen sich die Probleme mit verschiedenen Techniken in den Griff zu bekommen. 
 
 % Raid
-\todo{Parallele Dateisysteme auch hier erwähnen, RAID ist ein älterer Hut}
-Viele Systeme, insbesondere Server und HPC-Systeme, sind mit Raid-Verbunden ausgestattet, wobei jedes Raid-Typ ein oder mehrere Ziele verfolgen kann. Die meisten Raid-Verbunde versuchen jedoch ein Kompromiss zwischen Leistung, Datensicherheit und Kosten zu finden, wobei die Ziele gegeneinander gerichtet sind, was bedeutet, dass man das eine nicht verbessern kann ohne das andere zu verschlechtern. Die relativ hohen Anschaffungs-, Betriebs- und Wartungskosten machen die Raid-Systeme nur bis zur einer gewissen Größe wirtschaftlich. Ausserdem erreichen die Raid-Verbunde eine höhere Leistung nur für Daten ab einer bestimmten Größe. Der Grund liegt in der Funktionsweise der Raid-Verbunde. Sie zerteilen die Daten in die s.g.\todo{Ausschreiben} Chuncks und schreiben diese Daten parallel auf mehrer Massenspeicherkomponeneten. Wenn die Daten nicht auf mehrere Chunks zerteilen lassen, dann kann keine paralleler Schreibzugriff stattfinden, deshalb auch kein Leistungsgewinn. Für den Lesezugriff gilt die analoge Logik.
+Viele Systeme, insbesondere Server und HPC-Systeme, sind mit Raid-Verbunden ausgestattet, wobei jedes Raid-Typ ein oder mehrere Ziele verfolgen kann. Die meisten Raid-Verbunde versuchen jedoch ein Kompromiss zwischen Leistung, Datensicherheit und Kosten zu finden, wobei die Ziele gegeneinander gerichtet sind, was bedeutet, dass man das eine nicht verbessern kann ohne das andere zu verschlechtern. Die relativ hohen Anschaffungs-, Betriebs- und Wartungskosten machen die Raid-Systeme nur bis zur einer gewissen Größe wirtschaftlich. Ausserdem erreichen die Raid-Verbunde eine höhere Leistung nur für Daten ab einer bestimmten Größe. Der Grund liegt in der Funktionsweise der Raid-Verbunde. Sie zerteilen die Daten in \todo{evtl. hier weiter Ausbauen,\\oder vielleicht besser im nächsten Kapitel} Blöcke und schreiben diese sie parallel auf mehrere Massenspeicher. Wenn die Daten nicht auf mehrere Blöcke zerteilen lassen, dann kann keine paralleler Schreibzugriff stattfinden, deshalb auch kein Leistungsgewinn. Für den Lesezugriff gilt die analoge Logik.
+
+%\todo{Parallele Dateisysteme auch hier erwähnen, RAID ist ein älterer Hut}
+% Parallele verteilte Dateisysteme
+Verteilte Dateisystem fassen mehrere entfernte Massenspeicher zu einem Dateisystem zusammen. Für den Benutzer bleibt die verteilte Struktur Dateisystems nicht sichtbar und er kann darauf wie auf lokales Dateisystem zugreifen. Somit erfüllen die verteilte Dateisysteme das Zugriffstransparenzkriterium. Die Kommunikation mit dem Dateisystem läuft über eine fest definierte Schnittstelle ab und macht die verteilten Dateisysteme betriebssystem- und hardwareunabhängig. Eine Besonderheit von vielen modernen verteilten Dateisystemen ist ihre Fähigkeit parallel auf die Daten zuzugreifen. Sie dabei können verschiedene Strategien verwenden. Ähnlich wie die Raid-Verbunde, können sie die Dateien in mehrere Blöcke zerteilen und parallel auf mehrere Massenspeicher verteilen. \todo{Information prüfen und\\Quelle finden.} {\color{red} Wenn die Dateien nicht in genügend kleine Blöcke zerteilen lassen, dann ergeben sich auch ähnliche Nachteile wie bei den Raid-Verbunden. Das wird zum Teil dadurch kompensiert, dass auch mehrere kleine Dateien ebenfalls parallel geschrieben werden können.} Bekannte Vertreter dieser Dateisystemfamilie in HPC-Bereich sind Lustre, GPFS. \todo{Relevanz von Cache}
 
 % Cache
 Die Caches eine weitere weitverbreitete Methode die E/A-Leistung zu verbessern. Dabei werden die oft genutzte oder voraussichtlich bald benötigte Daten auf einem schnelleren Datenträger zwischenzuspeichert, z.B. ist in den meisten modernen Internet-Browsern das HTTP-Caching implementiert. Die Inhalte der Webseiten werden auf der Festplatte abgelegt, um beim wiederholten Zugriff bereits besuchte Seiten schnell aufzubauen und unnötigen Datenverkehr zu vermeiden. 
@@ -58,20 +61,17 @@ Trotz allen Bemühungen verschärft sich das Problem zunehmend und stellt eine H
 % aktuelle Forschung
 HP forscht an einem neuartigen Datenspeicher \cite{hp_memristor_future}, der mit Hilfe von Memristoren realisiert werden und den flüchtigen schnellen Arbeitsspeicher und den nichtflüchtigen langsamen Massenspeicher vereinheitlichen soll. Solch ein Speicher ermöglicht auch eine Computerarchitektur, in der die E/A-Problematik zumindest lokal wesentlich entschärft werden kann. Der erste Prototyp soll laut dem Zeitplan im Jahr 2017 erscheinen und im Jahr 2020 sollen die Rechner dem breiten Markt verfügbar sein. 
 
-\todo{Das ist viel näher dran an dem was du in der Arbeit machst als der Kram oben, hier ausbauen, schau in SIOX papers, MPI hints, tuning von Dateisystemen, Problem mit der Analyse der E/A, Darshan und SIOX erwähnen...}
+\todo{Ausbauen,\\SIOX papers, MPI hints, tuning von Dateisystemen,\\Problem mit der Analyse der E/A, Darshan und SIOX erwähnen...}
 Eine andere interessante Forschungsrichtung ist die Optimierung der E/A-Aufrufe. In einem Zweig geht man davon aus, dass Systeme, die parametrisierten E/A-Aufrufe anbieten das Potenzial haben mit optimalen Parametern beschleunigt zu werden. Die Schwierigkeit dabei für jeden individuellen E/A-Aufruf die optimalen Parameter zu bestimmen und zu übergeben. Schafft man das, dann kann die Leistung in vielen Fällen zumindest theoretisch wesentlich verbessert werden. In einem anderen Zweig versucht man die E/A-Zugriffe so zuordnen, damit möglichst optimal auf die Hardware abgestimmt sind. Beides ist universell anwendbar, kann als Software implementiert werden und relativ kostengünstig dem breiten Publikum zur Verfügung gestellt werden.
 
-\todo{Motivation hier rein packen nicht mit Zielen vermischen}
-
-\todo{Das gehört alles zu Motivation nach oben, zu SIOX und Darshan, daher mal hier hin verschoben}
-Wie im vorherigen Abschnitt bereits angedeutet, kommen bei der Realisierung der E/A-Systeme verschiedene Hard- und Software-Technologien zum Einsatz, z.B beim Zugriff auf die Festplatten spielt das Dateisystem, Bus, Blockgröße, diverse Caches usw. eine Rolle. Alle Komponenten stehen in einem komplexen Zusammenhang miteinander und führen zu Leistungseinbußen bei einer suboptimalen Konfiguration. Die Abstimmung der Komponenten aufeinander alleine erfordert meistens schon Expertenwissen, hinzu kommt noch Abstimmung der Komponenten auf die Nutzung, die in manchen Fällen variieren und unvorhersagbar sein kann. Eine universelle Methode oder sogar eine Software, die diese Aufgabe erleichtert, wäre hier sehr willkommen. Dazu fehlt allerdings noch die Grundlage, weil Vorgänge auf der E/A-Ebene wurden bisher nicht ausreichend untersucht sind. Es fehlt Wissen über die Zugriffsmuster, die bei der komplexen Nutzung entstehen, deren Ursachen und Auswirkungen auf die Systemleistung. Dementsprechend fehlen auch 
+Wie bereits angedeutet, kommen bei der Realisierung der E/A-Systeme verschiedene Hard- und Software-Technologien zum Einsatz, z.B beim Zugriff auf die Festplatten spielt das Dateisystem, Bus, Blockgröße, diverse Caches usw. eine Rolle. Alle Komponenten stehen in einem komplexen Zusammenhang miteinander und führen zu Leistungseinbußen bei einer suboptimalen Konfiguration. Die Abstimmung der Komponenten aufeinander alleine erfordert meistens schon Expertenwissen, hinzu kommt noch Abstimmung der Komponenten auf die Nutzung, die in manchen Fällen variieren und unvorhersagbar sein kann. Eine universelle Methode oder sogar eine Software, die diese Aufgabe erleichtert, wäre hier sehr willkommen. Dazu fehlt allerdings noch die Grundlage, weil Vorgänge auf der E/A-Ebene wurden bisher nicht ausreichend untersucht sind. Es fehlt Wissen über die Zugriffsmuster, die bei der komplexen Nutzung entstehen, deren Ursachen und Auswirkungen auf die Systemleistung. Dementsprechend fehlen auch 
 Gegenmaßnahmen zur Vermeidung von unerwünschten Situationen.
 
 \subsection{Ziele und Vorgehensweise}
 
 \todo{Das ausbauen und klarer darstellen. Ein bis zwei Satze was du machst und was das bringt, dannach die Teilziele klar darstellen }
-Eine einfache und gleichzeitig effektive Methode könnte die Parameteroptimierung bei parametrisierbaren E/A-Zugriffen sein. 
-Der Gedanke geht davon aus, dass die an die aktuelle Situation dynamisch angepasste Parameter bei manchen Systemen zur einer wesentlich besseren Leistung führen können, als die statisch festgelegten Werte. Das Ziel wäre dann solch eine Methode zu entwickeln und zu untersuchen.
+%Eine einfache und gleichzeitig effektive Methode könnte die Parameteroptimierung bei parametrisierbaren E/A-Zugriffen sein. 
+%Der Gedanke geht davon aus, dass die an die aktuelle Situation dynamisch angepasste Parameter bei manchen Systemen zur einer wesentlich besseren Leistung führen können, als die statisch festgelegten Werte. Das Ziel wäre dann solch eine Methode zu entwickeln und zu untersuchen.
 
 % messen und verstehen
 % Programm Verhalten
@@ -82,8 +82,12 @@ Der Gedanke geht davon aus, dass die an die aktuelle Situation dynamisch angepas
 %%% Vorgehensweise: Potezial pruefen, Potenzial nutzen, Wissen ableiten %%%
 % Werkzeuge: Machine Learning, SIOX
 
-\todo{Das ist noch etwas unkonkret}
-Diese Arbeit soll ein Blick hinter die Kulissen auf der E/A-Ebene werfen und einige Parameter identifizieren, die ein Einfluss auf die Systemleistung haben. Dann soll geprüft werden, inwieweit die Parameteroptimierung eine Leistungsverbesserung hervorrufen kann und das Potenzial bestimmt werden. Schließlich soll eine Methode zur systematischen Analyse und Optimierung mit Hilfe von Machine-Learning-Algorithmen entwickelt werden. 
+%\todo{Das ist noch etwas unkonkret}
+%Diese Arbeit soll ein Blick hinter die Kulissen auf der E/A-Ebene werfen und einige Parameter identifizieren, die ein Einfluss auf die Systemleistung haben. Dann soll geprüft werden, inwieweit die Parameteroptimierung eine Leistungsverbesserung hervorrufen kann und das Potenzial bestimmt werden. Schließlich soll eine Methode zur systematischen Analyse und Optimierung mit Hilfe von Machine-Learning-Algorithmen entwickelt werden. 
+
+Das primäre Ziel ist es einen Performance-Predictor und einen Classificator zu bauen, die das Systemverhalten widerspiegeln und dann mit den beiden Tools ein Parametrisierungstool erstellen, der für den beabsichtigten E/A-Zugriff möglichst optimale Parameter liefert. Der Performance-Predictor und Classificator werden mit Hilfe von Machine-Learning realisiert.
+
+Das sekundäre Ziel ist es versuche Regeln aus den Predictor zu extrahieren, die das Systemverhalten beschreiben. Dazu wird die interne Struktur von bereits trainierten Machine-Learning-Modelle im Performance-Predictor untersucht und das Zustandekommen von Entscheidungen in einer kurzen und menschenleserlichen Form notiert.
 
 %Zum Erfassen von E/A-Zugriffen wird SIOX verwendet werden, ein Tool fängt alle Systemaufrufe vom Programm ab und stellt sie für die Analyse zur Verfügung. Die Datenmenge soll auf Anomalien und Strukturen untersucht werden. Die Ursache für die Entstehung der Anomalien und die Strukturbildung soll erklärt werden.
 
@@ -94,11 +98,13 @@ Diese Arbeit soll ein Blick hinter die Kulissen auf der E/A-Ebene werfen und ein
 	% Techniken: Arbeitsweise von Cache, Festplattenmechanik, Betriebsysteme
 	% Datenfluss: Speicher -> Cache -> Verarbeitung, Leistungsverluste
 	% Werkzeuge: SIOX, Machine-Learning
+% Design
+  % Predictor-Design
+  % Classificator-Design
 % Implementierung: Predictor, Classificator, Rule Extraction
 % Auswertung: 
 % Schlussworte
 \todo{Am Ende nochmal überarbeiten}
 Das zweite Kapitel stellt einige verwandte Arbeiten aus dem Bereich der E/A-Zugriffsoptimierung vor. Im dritten Kapitel werden die theoretischen Aspekte behandelt. Dort werden die relevanten Begriffe definiert, die Funktionsweise der aktuellen Technologie erläutert und die benutzten Werkzeuge vorgestellt. 
-\todo{Den Satz kann man so nicht schreiben, besser das Design usw... :-)}
-Im vierten Kapitel befindet sich die Beschreibung der eigentlicher Arbeit, die im Rahmen dieser Thesis behandelt werden soll. 
+Das vierten Kapitel beschreibt das Design des Predictors und des Classificators und erklärt wie man mit diesen beiden Werkzeugen ein Parametrisierungstool zum setzen von optimalen Parametern bauen kann.
 Im fünften Kapitel wird die Umsetzung vorgestellt und die Ergebnisse ausgewertet. Zum Schluss gibt es noch eine Zusammenfassung und den Ausblick auf weitere Forschungsmöglichkeiten.
