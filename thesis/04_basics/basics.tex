@@ -1,0 +1,154 @@
+%2. 31.05-05.06
+%* Machine Learning (Features, Labels), Classification, Clustering,
+%K-Cross-Validation
+%* Verhalten von I/O Systemen (Caches, Wie läuft I/O Kommunikation ab)
+
+\section{Grundlagen}
+\subsection{Machine-Learning}
+Dieser Abschnitt stellt einige Begriffe aus dem Machine-Learning-Bereich vor. 
+Die Definitionen sind and das Buch von Peter Flach \cite{Flach:2012:MLA:2490546} angelehnt.
+\subsubsection{Begriffe}
+
+\begin{term}[Merkmal, Feature]
+Ein Merkmal bzw. ein Feature $f_i$ beschreibt eine Eigenschaft des untersuchten Gegenstands, z. B. kann es das Alter einer Person, die Hausnummer oder die Datengröße sein. 
+Mathematisch gesehen handelt es sich um eine Abbildung von dem Instanzraum auf die Featuredomain $f_i : \mathscr{X} \rightarrow \mathscr{F}_i$. 
+Mehrere Features bilden ein Featurevektor $F$. 
+\end{term}
+
+\begin{term}[Featuredomain]
+	Eine Featuredomain $\mathscr{F}$ legt alle Werte fest, die ein Feature annehmen kann. 
+\end{term}
+
+\begin{term}[Instanzraum]
+Der Instanzraum ist ein Kreuzprodukt aus den betrachteten Featuredomains $\mathscr{X} = \mathscr{F}_1 \times \dots \times \mathscr{F}_d$, wobei die Anzahl der Features $d$ die Dimension des Instanzraumes festlegt.
+\end{term}
+
+%\begin{term}[Sample]
+%Ein \textbf{Sample} $S = (F, L)$ ist ein Tupel aus einem Featurevektor und einem Label. 
+%Mehrere Samples können zu einem Sampleset $\mathcal{S}$ zusammengefasst werden.
+%\end{term}
+
+\subsubsection{k-Fold Cross-Validation}
+\textbf{k-Fold Cross-Validation} ist eine Auswertungsmethode der Machine-Learning-Algorithmen. 
+Eine Datenmenge wird in $k$ gleiche große Mengen aufgeteilt. 
+Eine Menge wird für das Training benutzt und $k-1$ Mengen zum Vorhersagen der Werte. 
+Die Differenz zwischen den echten und vorhergesagten Werten werden zu einem Durchschnittsfehler zusammengefasst. 
+Dieser Schritt wird für die restlichen Mengen durchgeführt und von den $k$ berechneten Durchschnittsfehlern wird ein Durchschnitt berechnet. 
+Dieser Wert beschreibt schließlich wie gut der Algorithmus das Problem lösen kann.
+
+
+\subsubsection{Cluster-, Klassifikations- und Regressionsanalyse}
+Die Clusteranalyse ist eine Prozedur, die eine Menge von Featurevektoren in Gruppen bzw. in die s.g. Cluster eingeteilt. Dabei beinhalten die gleichen Cluster möglichst gleiche Featurevektoren und unterschiedliche Cluster möglichst unterschiedliche. Ein Wissen über die Cluster ist nicht erforderlich.
+
+Die Regressionsanalyse stellt die eine mathematische Beziehung zwischen mehreren unabhängigen Variablen $f$ und einer abhängiger Variable $y$, oder kurz $y = regr(f_1, f_2, \dots, f_n) + e$, wobei $regr$ eine Funktion des Modell ist und $e$ der Fehler.
+Die Regressionsanalyse kann eingesetzt werden, um fehlende Werte zu bisher nicht analysieren Variablen vorhersagen.
+
+Die Klassifikationsanalyse ist ein mathematisch-statische Verfahren indem eine untersuchte Einheit, die aus mehreren unabhängigen Variablen $f$ besteht, nach bestimmten Kriterien einer bestimmter Gruppe $y$ zugeordnet wird, oder kurz $y = class(f_1, f_2, \dots, f_n)$, wobei $class$ eine Entscheidungsfunktion des Modell ist. Im Gegensatz zur Regressionsanalyse und Clusteranalyse müssen hier die Klassen bekannt sein und unbekannte Klassen können nicht vorhergesagt werden.
+
+
+\subsubsection{Entscheidungsbäume}
+Einige Algorithmen aus der Entscheidungsbaum-Familie beherrschen sowohl die Klassifizierungs- als auch Regressionsanalyse. 
+Sie nutzen zwar unterschiedliche Techniken, um ein Entscheidungsbaum zu erstellen, aber die Entscheidungsbäume funktionieren alle nach demselben Prinzip: 
+
+Als Entscheidungsbäume bestehen aus drei Knotentypen: einer Wurzel, den internen Knoten und den Blättern. 
+Jeder interner Knoten hat stets eine oder mehrere Verzweigungen, die als Brücke zu anderen Knoten dienen. 
+Jeder interner Knoten ist einem Entscheidungsmerkmal und jeder seiner Zweige ist ein Wertebereich zugeordnet. 
+Liegt der Wert des Merkmals im Bereich eines Zweiges, so geht man über ihn zu dem verbundenen Knoten über. 
+Die Blätter sind Terminierungsknoten. 
+Sie beinhalten die Entscheidungswerte. 
+
+Der Entscheidungsprozess startet immer an der Wurzel, benötigt eine Instanz als Eingabe und liefert stets einen Entscheidungswert als Ausgabe. 
+An der Wurzel wird der in aus der Instanz der Wert des Entscheidungsmerkmals entnommen und mit den Wertebereichen des Zweige verglichen. 
+Liegt der Wert innerhalb des Wertebereichs eines Zweiges, so geht man über ihn zum nächsten Knoten über. 
+Dieser Vorgang wiederholt sich rekursiv bis eine Blatt erreicht wird. Der Wert des Blattes wird zurückgegeben. 
+
+Ein Binärbaum ist ein besonderer Entscheidungsbaumtyp. 
+Jeder seiner interner Knoten hat stets zwei Verzweigungen. 
+
+Die Funktionsweise der Bäume ist relativ einfach und für den Menschen leicht verständlich. 
+Man kann nachvollziehen wie bestimmte Entscheidungen zustande kommen und daraus Wissen ableiten. 
+Das ist einer der Hauptvorteile der Entscheidungsbäume.
+
+
+\subsection{E/A-Leistung}
+Um die E/A-Leistung besser zu verstehen und Missinterpretationen zu vermeiden muss man die grundlegende Funktionsweise Hardware verstehen und bei der Analyse berücksichtigen. 
+
+\subsubsection{Leistungskennzahlen}
+Wegen den unterschiedlichen Einsatzzwecken lässt sich die Leistung der E/A-Systeme nicht durch eine einzige Kennzahl bemessen. 
+Stattdessen ist die Leistungskennzahl abhängig vom Systemtypen und muss für jedes System individuell bestimmt werden. 
+Die gängigsten Leistungskennzahlen sind:
+
+\begin{term}[Datendurchsatz] % \cite{daver10bu1}]
+	Der Datendurchsatz $D$ ist die übertragene Datenmenge pro Zeiteinheit.
+	%D = IOPS * IOSize
+\end{term}
+
+\begin{term}[Antwortzeit]
+	Antwortzeit $T_R$ ist die Zeitspanne zwischen Absenden der Anfrage und dem Eingang des ersten Zeichen von der Antwortnachricht. Die Antwortzeit setzt sich auf der Übertragungszeit und Wartezeit.
+\end{term}
+
+\begin{term}[Auslastung]
+	Die Auslastung $U$ ist der Quotient aus der tatsächlicher Nutzungszeit (inkl. Overhead) und der Gesamtzeit. 
+\end{term}
+
+
+\subsubsection{Einflussfaktoren}
+Die E/A-Leistung kann von verschiedenen Faktoren und Parametern beeinflusst werden, z.B. Blockgröße des Dateisystem, parallele Zugriffe auf Disk-Subsysteme, Betriebssystem und Anwendungen, Massenspeichercontroller, Speichermediumgeschwidigkeit und -technologie.
+
+% Datenbloecke
+%Die Daten werden immer blockweise von Massenspeichermedium gelesen. 
+%Die Blockgröße ist abhängig von Systemkonfiguration, der Anwendung oder Betriebssystem. 
+%Bei einem eingerichteten System ist die Blockgröße vorgegeben und kann der Benutzer in den meisten Fällen nicht bestimmt werden. 
+
+
+\subsubsection{Caches}
+% Definition
+Ein Cache ist ein schneller Zwischenspeicher zur Beschleunigung von E/A-Zugriffen auf dem darunterliegenden langsamen Speichermedium. 
+Der Preis pro Speichereinheit ist des Caches übersteigt meistens wesentlich den Preis pro Speichereinheit von Speichermedium, deshalb ist wesentlich kleiner.
+
+% Funktionsweise
+Die Zugriffskosten auf den Cache sind wesentlich kleiner als die Zugriffskosten auf das Speichermedium. 
+Bei einem Lesezugriff prüft das System, ob die angeforderte Daten im Cache liegen. 
+Falls ja, also bei einem Cache-Hit, werden sie sofort übertragen, andernfalls, beim Cache-Miss, werden sie erst vom Speichermedium in den Cache eingelesen und dann übertragen. 
+Mit den zahlreichen Strategien versucht man die Anzahl von Cache-Hits zu maximieren.  
+
+\begin{figure}[h]
+	\centering
+	\begin{minipage}[t]{0.3\textwidth}
+		\begin{enumerate}
+			\item Register
+			\item Prozessor Cache
+			\item Arbeitsspeicher
+			\item Festplattencache
+		\end{enumerate}
+	\end{minipage}
+	\caption{Tradidionelle Cachehierarchie}
+\end{figure}
+
+Neben den tradidionellen Cachehierarchie gibt es noch weitere Formen, die nach dem selben Prizip funktionieren, sich aber nicht so einfach in die Cachehierarchie eingliedern lassen, z.B. SSD-Cachesysteme, Auslagerungsdatei, HTTP-Caching.
+
+\subsubsection{Wahlfrei E/A-Operationen}
+Die Massenspeicher können nur eine bestimmte Anzahl der E/A-Operationen pro Sekunde $IOPS$ durchführen. Diese Zahl ist konstant und gibt den Maximalwert an. Bei den Festplatten wird sie z. B. durch die Suchzeit $t_{seek}$ und die Verzögerungszeit $t_{d}$ bestimmt. $t_{seek}$ die der Lesekopf im Schnitt benötigt, um die richtige Spur auf der Scheibe zu finden und $t_d$ ist die Zeit dei im Schnitt vergeht, bis der Lesekopf über die Daten fliegt. IOPS wäre in diesen Fall $IOPS = \frac{1}{t_d + t_{seek}}$.
+
+Da bei jeder E/A-Operation die Datenmenge $d_{size}$ sequentiell durchgeführt wird, lässt sich daraus $IOPS$ und $d_{size}$ der Durchsatz bestimmen.
+
+\begin{equation}
+	D = IOPS * d_{size}
+\end{equation}
+
+Der Einsatz von Caches kann zu einer Überschreitung des theoretischen Wertes führen, wenn die benötigten Daten bereits im Cache liegen. In diesem Fall ist der E/A-Zugriff auf den Massenspeichermedium überflüssig und wird übersprungen. Aber auch diese Zeiten können beträchtlich variieren, je nachdem auf welchen Cache in der Cachehierarchie zugegriffen wird. 
+
+%\subsection{Leistungsanalyse}
+%Für Leistungsanalyse benötigt man spezielle Werkzeuge, die das Programmverhalten protokollieren und analysieren. Die Ursache für die Leistungseinbußen sollen nach Möglichkeit herauskristallisiert werden.
+
+%Die Optimierung kann darauf ausgerichtet werden, möglichst aus einer höheren Cachehierarchie die Daten zu bekommen. 
+
+% anomaly detection
+\todo{Anomaly detection}
+%EVTL!!! Wahrscheinlich langt es in der Einleitung
+%Wie passiert das Vampir etc.
+
+% Betriebssystem und Anwendungen
+
+
+

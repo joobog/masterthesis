@@ -1,0 +1,13 @@
+*.log
+*.swp
+*.backup
+*.aux
+*.bbl
+*.blg
+*.toc
+*.vim
+*.bac
+*.tdo
+bullshit.tex
+*.latexmain
+*~
