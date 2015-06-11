@@ -1,9 +1,11 @@
 %%This is a very basic article template.
 %%There is just one section and two subsections.
 
-\documentclass[10pt,a4paper]{article}
+\documentclass[12pt,a4paper]{article}
 %\usepackage[showframe]{geometry}
 \usepackage{geometry}
+\usepackage{amsthm}
+\newtheorem{term}{Definition}
 
 % disable annoying marginpar warning
 \usepackage{silence}
@@ -15,9 +17,10 @@
 \usepackage[ngerman]{babel}
 %\usepackage[english]{babel} 
 
-\newgeometry{marginparsep=0mm, left=2cm,right=4cm,top=2cm,bottom=2cm}
-\usepackage[textwidth=4cm]{todonotes}
-\setlength{\marginparwidth}{4cm}
+%\newgeometry{marginparsep=0mm, left=2cm,right=4cm,top=2cm,bottom=2cm}
+%\usepackage[textwidth=4cm]{todonotes}
+\usepackage[textwidth=2cm]{todonotes}
+%\setlength{\marginparwidth}{4cm}
 \presetkeys{todonotes}{color=green!30,size=\scriptsize}{}
 
 \usepackage{amsmath}
@@ -63,16 +66,17 @@
 \listoftodos
 \newpage
 %\subimport{./}{plan}
-\subimport{00_titlepage/}{titlepage}
-\tableofcontents
-\newpage 
-\subimport{01_abstract/}{abstract}
+%\subimport{00_titlepage/}{titlepage}
+%\tableofcontents
+%\newpage 
+%\subimport{01_abstract/}{abstract}
 \subimport{02_intro/}{intro}
+\subimport{03_related_work/}{related_work}
 \subimport{03_basics/}{basics}
-\subimport{04_design/}{design}
-\subimport{05_implementation/}{implementation}
-\subimport{06_evaluation/}{evaluation}
-\subimport{07_conclusion/}{conclusion}
+%\subimport{04_design/}{design}
+%\subimport{05_implementation/}{implementation}
+%\subimport{06_evaluation/}{evaluation}
+%\subimport{07_conclusion/}{conclusion}
 \bibliographystyle{ieeetr}
 \bibliography{08_literature/literature.bib}
 \end{document}
