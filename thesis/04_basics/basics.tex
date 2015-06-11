@@ -10,11 +10,34 @@
 
 \subsection{Machine-Learning}
 Dieser Abschnitt stellt einige Begriffe aus dem Machine-Learning-Bereich vor. 
-Die Definitionen sind and das Buch von Peter Flach \cite{Flach:2012:MLA:2490546} angelehnt.
+Die Definitionen sind an das Buch von Peter Flach \cite{Flach:2012:MLA:2490546} angelehnt.
+
+\todo{Worum geht es hier überhaupt?}
+Hier in Prosa erklären, nachher bei Begriffen darauf bezug nehmen.
+Supervised learning, wir wollen etwas über die Eigenschaften einer Menge von Datensätzen lernen um später 
+Eigenschaften eines unvollständigen Datensatzes vorherzusagen.
+
+Evtl. könnte man hier 
+``Cluster-, Klassifikations- und Regressionsanalyse'' motivieren.
+Aber allgemein langt es vermutlich auch.
+
+
+
 \subsubsection{Begriffe}
 
-\begin{term}[Merkmal, Feature]
-Ein Merkmal bzw. ein Feature $f_i$ beschreibt eine Eigenschaft des untersuchten Gegenstands, z. B. kann es das Alter einer Person, die Hausnummer oder die Datengröße sein. 
+\begin{term}[Instanz]
+\todo{Instanz, oder?}
+Ein \textbf{Sample} $S = (F, L)$ ist ein Tupel aus einem Featurevektor und einem Label. 
+Mehrere Instanzen können zu einem Datensatz $\mathcal{S}$ zusammengefasst werden.
+\end{term}
+
+\begin{term}[Datensatz]
+... Trainingsdaten, Validierungsdaten?
+\end{term}
+
+\begin{term}[Merkmal (Englisch: Feature)]
+Ein Merkmal bzw. ein Feature $f_i$ beschreibt eine Eigenschaft des Untersuchungsobjekts, z.B. kann es das Alter einer Person, die Hausnummer oder die Datenmenge sein. 
+\todo{Instanz ist der Gegenstand dachte ich, aber das passt dann nicht zu Instanzraum? Ich versuch das mal:}
 Mathematisch gesehen handelt es sich um eine Abbildung von dem Instanzraum auf die Featuredomain $f_i : \mathscr{X} \rightarrow \mathscr{F}_i$. 
 Mehrere Features bilden ein Featurevektor $F$. 
 \end{term}
@@ -27,21 +50,19 @@ Mehrere Features bilden ein Featurevektor $F$.
 Der Instanzraum ist ein Kreuzprodukt aus den betrachteten Featuredomains $\mathscr{X} = \mathscr{F}_1 \times \dots \times \mathscr{F}_d$, wobei die Anzahl der Features $d$ die Dimension des Instanzraumes festlegt.
 \end{term}
 
-%\begin{term}[Sample]
-%Ein \textbf{Sample} $S = (F, L)$ ist ein Tupel aus einem Featurevektor und einem Label. 
-%Mehrere Samples können zu einem Sampleset $\mathcal{S}$ zusammengefasst werden.
-%\end{term}
 
-\subsubsection{k-Fold Cross-Validation}
+\begin{term}[k-Fold Cross-Validation]
 \textbf{k-Fold Cross-Validation} ist eine Auswertungsmethode der Machine-Learning-Algorithmen. 
-Eine Datenmenge wird in $k$ gleiche große Mengen aufgeteilt. 
+Die Datensätze werden in $k$ gleiche große Mengen aufgeteilt. 
+\todo{Das ist nicht präzise genug.}
 Eine Menge wird für das Training benutzt und $k-1$ Mengen zum Vorhersagen der Werte. 
 Die Differenz zwischen den echten und vorhergesagten Werten werden zu einem Durchschnittsfehler zusammengefasst. 
 Dieser Schritt wird für die restlichen Mengen durchgeführt und von den $k$ berechneten Durchschnittsfehlern wird ein Durchschnitt berechnet. 
 Dieser Wert beschreibt schließlich wie gut der Algorithmus das Problem lösen kann.
-
+\end{term}
 
 \subsubsection{Cluster-, Klassifikations- und Regressionsanalyse}
+\todo{Das würde ich grundsätzlich vorher erklären worum geht es eigentlich?}
 Die Clusteranalyse ist eine Prozedur, die eine Menge von Featurevektoren in Gruppen bzw. in die s.g. Cluster eingeteilt. Dabei beinhalten die gleichen Cluster möglichst gleiche Featurevektoren und unterschiedliche Cluster möglichst unterschiedliche. Ein Wissen über die Cluster ist nicht erforderlich.
 
 Die Regressionsanalyse stellt die eine mathematische Beziehung zwischen mehreren unabhängigen Variablen $f$ und einer abhängiger Variable $y$, oder kurz $y = regr(f_1, f_2, \dots, f_n) + e$, wobei $regr$ eine Funktion des Modell ist und $e$ der Fehler.
@@ -73,9 +94,12 @@ Die Funktionsweise der Bäume ist relativ einfach und für den Menschen leicht v
 Man kann nachvollziehen wie bestimmte Entscheidungen zustande kommen und daraus Wissen ableiten. 
 Das ist einer der Hauptvorteile der Entscheidungsbäume.
 
+\todo{Hier MUSS ein Bild eines Baumes hin, das du erklärst! Am besten gepart mit einem einfachen Beispiel.}
+
+
 
 \subsection{E/A-Leistung}
-Um die E/A-Leistung besser zu verstehen und Missinterpretationen zu vermeiden muss man die grundlegende Funktionsweise Hardware verstehen und bei der Analyse berücksichtigen. 
+Um die E/A-Leistung besser zu verstehen und Missinterpretationen zu vermeiden muss man die grundlegende Funktionsweise der Hardware und Software verstehen und bei der Analyse berücksichtigen. 
 
 \subsubsection{Leistungskennzahlen}
 Wegen den unterschiedlichen Einsatzzwecken lässt sich die Leistung der E/A-Systeme nicht durch eine einzige Kennzahl bemessen. 
@@ -89,15 +113,16 @@ Die gängigsten Leistungskennzahlen sind:
 
 \begin{term}[Antwortzeit]
 	Antwortzeit $T_R$ ist die Zeitspanne zwischen Absenden der Anfrage und dem Eingang des ersten Zeichen von der Antwortnachricht. Die Antwortzeit setzt sich auf der Übertragungszeit und Wartezeit.
+	\todo{Das hat bei I/O eigtl. keine Relevanz, wie kann ich das messen? Latenz gibt es noch...}
 \end{term}
 
 \begin{term}[Auslastung]
-	Die Auslastung $U$ ist der Quotient aus der tatsächlicher Nutzungszeit (inkl. Overhead) und der Gesamtzeit. 
+	Die Auslastung $U$ eines Systems ist der Quotient aus der tatsächlicher Nutzungszeit (inkl. Overhead) und der Gesamtzeit. 
 \end{term}
 
 
 \subsubsection{Einflussfaktoren}
-Die E/A-Leistung kann von verschiedenen Faktoren und Parametern beeinflusst werden, z.B. Blockgröße des Dateisystem, parallele Zugriffe auf Disk-Subsysteme, Betriebssystem und Anwendungen, Massenspeichercontroller, Speichermediumgeschwidigkeit und -technologie.
+Die E/A-Leistung wird von verschiedenen Faktoren und Parametern beeinflusst, z.B. Blockgröße des Dateisystem, parallele Zugriffe auf das Speicher-Subsystem, Betriebssystem und Anwendungen, Massenspeichercontroller, Speichermediumgeschwindigkeit und -technologie.
 
 % Datenbloecke
 %Die Daten werden immer blockweise von Massenspeichermedium gelesen. 
@@ -105,10 +130,12 @@ Die E/A-Leistung kann von verschiedenen Faktoren und Parametern beeinflusst werd
 %Bei einem eingerichteten System ist die Blockgröße vorgegeben und kann der Benutzer in den meisten Fällen nicht bestimmt werden. 
 
 
+\todo{Zuerst die Hardware erklären, dann wird klarer wozu Caches}
+
 \subsubsection{Caches}
 % Definition
-Ein Cache ist ein schneller Zwischenspeicher zur Beschleunigung von E/A-Zugriffen auf dem darunterliegenden langsamen Speichermedium. 
-Der Preis pro Speichereinheit ist des Caches übersteigt meistens wesentlich den Preis pro Speichereinheit von Speichermedium, deshalb ist wesentlich kleiner.
+Ein Cache ist ein schneller Zwischenspeicher zur Beschleunigung von Zugriffen auf dem darunterliegenden langsameren Speichermedium. 
+Der Preis pro Speichereinheit des Caches übersteigt wesentlich den Preis pro Speichereinheit des langsameren Speichermediums.
 
 % Funktionsweise
 Die Zugriffskosten auf den Cache sind wesentlich kleiner als die Zugriffskosten auf das Speichermedium. 
@@ -132,7 +159,9 @@ Mit den zahlreichen Strategien versucht man die Anzahl von Cache-Hits zu maximie
 Neben den tradidionellen Cachehierarchie gibt es noch weitere Formen, die nach dem selben Prizip funktionieren, sich aber nicht so einfach in die Cachehierarchie eingliedern lassen, z.B. SSD-Cachesysteme, Auslagerungsdatei, HTTP-Caching.
 
 \subsubsection{Wahlfrei E/A-Operationen}
-Die Massenspeicher können nur eine bestimmte Anzahl der E/A-Operationen pro Sekunde $IOPS$ durchführen. Diese Zahl ist konstant und gibt den Maximalwert an. Bei den Festplatten wird sie z. B. durch die Suchzeit $t_{seek}$ und die Verzögerungszeit $t_{d}$ bestimmt. $t_{seek}$ die der Lesekopf im Schnitt benötigt, um die richtige Spur auf der Scheibe zu finden und $t_d$ ist die Zeit dei im Schnitt vergeht, bis der Lesekopf über die Daten fliegt. IOPS wäre in diesen Fall $IOPS = \frac{1}{t_d + t_{seek}}$.
+Die Massenspeicher können nur eine bestimmte Anzahl der E/A-Operationen pro Sekunde $IOPS$ durchführen. 
+% Diese Zahl ist konstant und gibt den Maximalwert an. DAS IST FALSCH, ist nicht konstant.
+Bei den Festplatten wird sie z. B. durch die Suchzeit $t_{seek}$ und die Verzögerungszeit $t_{d}$ bestimmt. $t_{seek}$ die der Lesekopf im Schnitt benötigt, um die richtige Spur auf der Scheibe zu finden und $t_d$ ist die Zeit dei im Schnitt vergeht, bis der Lesekopf über die Daten fliegt. IOPS wäre in diesen Fall $IOPS = \frac{1}{t_d + t_{seek}}$.
 
 Da bei jeder E/A-Operation die Datenmenge $d_{size}$ sequentiell durchgeführt wird, lässt sich daraus $IOPS$ und $d_{size}$ der Durchsatz bestimmen.
 
@@ -140,6 +169,7 @@ Da bei jeder E/A-Operation die Datenmenge $d_{size}$ sequentiell durchgeführt w
 	D = IOPS * d_{size}
 \end{equation}
 
+\todo{Das gehört eher zu Caches}
 Der Einsatz von Caches kann zu einer Überschreitung des theoretischen Wertes führen, wenn die benötigten Daten bereits im Cache liegen. In diesem Fall ist der E/A-Zugriff auf den Massenspeichermedium überflüssig und wird übersprungen. Aber auch diese Zeiten können beträchtlich variieren, je nachdem auf welchen Cache in der Cachehierarchie zugegriffen wird. 
 
 %\subsection{Leistungsanalyse}
