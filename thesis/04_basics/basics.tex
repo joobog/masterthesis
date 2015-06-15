@@ -31,8 +31,13 @@ Ein \textbf{Sample} $S = (F, L)$ ist ein Tupel aus einem Featurevektor und einem
 Mehrere Instanzen können zu einem Datensatz $\mathcal{S}$ zusammengefasst werden.
 \end{term}
 
+
+\begin{term}[Modell]
+	\todo{Modelldefinition}
+\end{term}
+
 \begin{term}[Datensatz]
-... Trainingsdaten, Validierungsdaten?
+	\todo{Definition... Trainingsdaten, Validierungsdaten?}
 \end{term}
 
 \begin{term}[Merkmal (Englisch: Feature)]
@@ -47,11 +52,12 @@ Mehrere Features bilden ein Featurevektor $F$.
 \end{term}
 
 \begin{term}[Instanzraum]
-Der Instanzraum ist ein Kreuzprodukt aus den betrachteten Featuredomains $\mathscr{X} = \mathscr{F}_1 \times \dots \times \mathscr{F}_d$, wobei die Anzahl der Features $d$ die Dimension des Instanzraumes festlegt.
+Der Instanzraum ist ein Kreuzprodukt aus den Featuredomains $\mathscr{X} = \mathscr{F}_1 \times \dots \times \mathscr{F}_d$, wobei die Anzahl der Features $d$ die Dimension des Instanzraumes festlegt.
 \end{term}
 
 
-\begin{term}[k-Fold Cross-Validation]
+
+\begin{term}[Kreuzvalidierung]
 \textbf{k-Fold Cross-Validation} ist eine Auswertungsmethode der Machine-Learning-Algorithmen. 
 Die Datensätze werden in $k$ gleiche große Mengen aufgeteilt. 
 \todo{Das ist nicht präzise genug.}
@@ -96,6 +102,12 @@ Das ist einer der Hauptvorteile der Entscheidungsbäume.
 
 \todo{Hier MUSS ein Bild eines Baumes hin, das du erklärst! Am besten gepart mit einem einfachen Beispiel.}
 
+\begin{figure}[h]
+	\centering
+	\input{pictures/decision_tree.tex}
+	\label{fig:bas:decision_tree}
+	\caption{Schematische Darstellung eines Entscheidungsbaumes. (I1 ist die Wurzel; I1,I2,I3 sind interne Knoten und B1,B2,B3,B4,B5 sind Blätter.)}
+\end{figure}
 
 
 \subsection{E/A-Leistung}

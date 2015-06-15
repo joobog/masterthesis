@@ -1,0 +1,22 @@
+\begin{tikzpicture}
+	[
+		remember picture,
+		>=latex reversed,
+		-<,
+		level/.style={sibling distance = 5cm/#1, level distance = 1.5cm}
+	]
+	
+	\node[root](root){I1}
+	child{node[internal]{I1} 
+		child{node[leaf]{B1}}
+		child{node[internal]{I2}
+			child{node[leaf]{B2}}
+			child{node[leaf]{B3}}
+		}
+	}
+	child{node[internal]{I3}
+		child{node[leaf]{B4}}
+		child{node[leaf]{B5}}
+	};
+
+\end{tikzpicture}
