@@ -5,6 +5,7 @@
 %\usepackage[showframe]{geometry}
 \usepackage{geometry}
 \usepackage{amsthm}
+\usepackage{hyperref}
 \newtheorem{term}{Definition}
 
 % disable annoying marginpar warning
@@ -12,6 +13,7 @@
 \WarningFilter{latex}{Marginpar}
 
 \usepackage{color}
+%\usepackage{xcolor}
 %\usepackage{a4wide}
 \usepackage[utf8]{inputenc}
 \usepackage[ngerman]{babel}
@@ -50,6 +52,9 @@
 }
 
 \newcommand{\codeinline}[1]{\lstinline[language=C,basicstyle=\bf\ttfamily]~#1~}
+\newcommand{\figref}[1]{Abb. \ref{#1}}
+\newcommand{\tabref}[1]{Tab. \ref{#1}}
+\newcommand{\lstref}[1]{Code \ref{#1}}
 
 %\usepackage{transparent}
 \usepackage{import}
@@ -70,13 +75,13 @@
 %\tableofcontents
 %\newpage 
 %\subimport{01_abstract/}{abstract}
-\subimport{02_intro/}{intro}
-\subimport{03_related_work/}{related_work}
+%\subimport{02_intro/}{intro}
+%\subimport{03_related_work/}{related_work}
 \subimport{04_basics/}{basics}
 %\subimport{05_design/}{design}
 %\subimport{06_implementation/}{implementation}
 %\subimport{07_evaluation/}{evaluation}
 %\subimport{08_conclusion/}{conclusion}
-\bibliographystyle{ieeetr}
+%\bibliographystyle{ieeetr}
 \bibliography{09_literature/literature.bib}
 \end{document}
