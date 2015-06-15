@@ -1,0 +1,67 @@
+\begin{tikzpicture}
+	[
+		%remember picture,
+		>=latex reversed,
+		node distance=5mm and 5mm,
+		flowchart
+	]
+
+	\node
+		[block]
+		(start)
+		{Start};
+	\node
+		[block, below=of start]
+		(get)
+		{nehme Aktivität};
+	\node
+		[block,below=of get]
+		(compute)
+		{erzeuge Beispiel};
+	\node
+		[block,below=of compute]
+		(save)
+		{füge zu Trainingsdaten hinzu};
+	\node
+		[decision, below=of save]
+		(decide)
+		{Sequenzende?};
+	\node
+		[block, below=of decide]
+		(cluster)
+		{gruppiere Trainingsdaten};
+	\node
+		[block, below=of cluster]
+		(traindata)
+		{füge Gruppen\\zu Trainingsdaten hinzu};
+	\node
+		[block,below=of traindata]
+		(train)
+		{trainiere Modell};
+	\node
+		[block, below=of train]
+		(results)
+		{speichere Modell};
+	\node
+		[block, below=of results]
+		(end)
+		{Ende};
+
+	\path
+		[->, >=latex]
+		(start) edge (get)
+		(get) edge (compute)
+		(compute) edge (save)
+		(save) edge (decide)
+		(decide) edge  node[near start, right] {ja} (cluster)
+		(cluster) edge (traindata)
+		(traindata) edge (train) 
+		(train) edge (results)
+		(results) edge (end);
+	
+	\path
+		[line]
+		(decide) edge [out=180, in=180] node[near start, left] {nein}  (get);
+
+\end{tikzpicture}
+

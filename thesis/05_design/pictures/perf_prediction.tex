@@ -1,0 +1,62 @@
+\begin{tikzpicture}
+	[
+		%remember picture,
+		>=latex reversed,
+		node distance=5mm and 5mm,
+		flowchart
+	]
+
+	\node
+		[block]
+		(start)
+		{Start};
+	\node
+		[block, below=of start]
+		(load)
+		{lade Modell};
+	\node
+		[block,below=of load]
+		(get)
+		{nehme Aktivität};
+	\node
+		[block,below=of get]
+		(compute)
+		{erzeuge Beispiel};
+	\node
+		[block,below=of compute]
+		(predict)
+		{schätze Leistung};
+	\node
+		[block,below=of predict]
+		(anomaly)
+		{prüfe auf Anomalie};
+	\node
+		[decision, below=of anomaly]
+		(decide)
+		{Sequenzende?};
+	\node
+		[block, below=of decide]
+		(results)
+		{gebe Statistiken aus};
+	\node
+		[block, below=of results]
+		(end)
+		{Ende};
+
+	\path
+		[->, >=latex]
+		(start) edge (load)
+		(load)	edge	(get)
+		(get) edge (compute)
+		(compute) edge (predict)
+		(predict) edge (anomaly) 
+		(anomaly) edge (decide)
+		(decide) edge node[near start, right] {ja} (results)
+		(results) edge (end);
+	
+	\path
+		[line]
+		(decide) edge [out=180, in=180] node[near start, left] {nein}  (get);
+
+\end{tikzpicture}
+

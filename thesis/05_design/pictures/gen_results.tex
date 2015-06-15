@@ -1,0 +1,33 @@
+\begin{tikzpicture}
+	[
+		remember picture,
+		>=latex reversed,
+		organism/.style={draw,rounded corners},
+		node distance=5mm and 5mm
+	]
+	
+	\node
+		[organism]
+		(file)
+		{Spurdatei};
+	\node
+		[organism,right=of file]
+		(tracereader)
+		{SIOX};
+	\node
+		[organism,right=of tracereader]
+		(ke)
+		{Analyse-Plugin};
+	\node
+		[organism,right=of ke]
+		(result)
+		{Ergebnisse};
+
+	\path
+		[->, >=latex]
+		(file)	edge	(tracereader)
+		(tracereader)	edge	(ke)
+		(ke) edge (result);
+
+
+\end{tikzpicture}
