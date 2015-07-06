@@ -12,138 +12,35 @@
 %=> Bei Terminierung des Programs wollen wir ja sehen, dass der die
 %Gründe und Bewertung vornimmt. Wieviel I/O In Klasse 1, 2....
 %(Entsprechend der Namen).
+
+\newpage
+
 \section{Design}
 Das Design des Programms soll darauf ausgerichtet werden, um uns den 
 \textit{Optimierung/Wissenszyklus, Leistungsprädiktor, Ursachen-Klassifikator, Wissensextraktion, Ausgabe des Plugins}
 
-
-\section{SIOX-Aktivitäten}
-Die SIOX-Aktivitäten sind Datenstrukturen, die Informationen über die E/A-Operationen beinhalten.
-Die aktuelle Version arbeitet bereits mit HDF5-, NETCDF4-, MPI- und POSIX-Schnittstellen.
-Die Aktivitäten dienen als eine Basis für die Leistungsanalyse und werden in diesem Abschitt detailiert betrachtet.
-
-Die \tabref{tab:des:activity} listet grob alle Bestandteile einer SIOX-Aktivität.
-Der Typ und der Name wurden direkt aus dem Quellcode übernommen und kurz beschrieben.
-Da in dieser Arbeit nur die POSIX-Schnittstelle betrachtet wird, werden nicht alle Bestandteile benötigt.
-Die nicht verwendeten Bestandteile wurde in der Tabelle ausgegraut.
-
-\begin{table}[h]
-	\centering
-	\begin{scriptsize}
-		\begin{tabular}{l | l | l}
-			Typ & Name & Beschreibung \\
-			\hline
-			\lstinline{ActivityID}                                              & \lstinline{aid}                                                & Eindeutiger Bezeichner \\
-			\lstinline{UniqueComponentActivityID}                               & \lstinline{ucaid}                                              & Typ der E/A-Operation \\
-			\lstinline{Timestamp}                                               & \lstinline{time_start}                                         & Startzeit in Nanosekunden\\
-			\lstinline{Timestamp}                                               & \lstinline{time_stop}                                          & Stopzeit in Nanosekunden \\
-			\lstinline{vector<ActivityID>}                                      & \lstinline{parentArray}                                        & Ausgangs-E/A-Operationen \\
-			\lstinline[basicstyle=\ttfamily\color{gray}]{vector<RemoteCall>}    & \lstinline[basicstyle=\ttfamily\color{gray}]{remoteCallsArray} & \textcolor{gray}{\textit{-}} \\
-			\lstinline{vector<Attribute>}                                       & \lstinline{attributeArray}                                     & Parameter, Rückgabewert, usw. \\
-			\lstinline[basicstyle=\ttfamily\color{gray}]{RemoteCallIdentifier*} & \lstinline[basicstyle=\ttfamily\color{gray}]{remoteInvoker}    & \textcolor{gray}{\textit{-}} \\
-			\lstinline[basicstyle=\ttfamily\color{gray}]{ActivityError}         & \lstinline[basicstyle=\ttfamily\color{gray}]{errorValue}       & \textcolor{gray}{\textit{-}}
-		\end{tabular}
-	\end{scriptsize}
-	\label{tab:des:activity}
-	\caption{Zusammensetzung der SIOX-Aktivitäten. (Die ausgegrauten Bestandteile sind nicht relevant für diese Arbeit.)}
-\end{table}
-
-Ganz besonders interessant sind die drei POSIX-Operationstypen: Eingabe-, Ausgabe- und Positionierungsoperationen, denn in den meisten Fällen bestimmen sie die E/A-Leistung.
-%https://en.wikipedia.org/wiki/C_file_input/output
-Um einmal zu zeigen wie diese Operationen in den SIOX-Aktivitäten behandelt werden schauen wir uns jeweils einen Vertreter von jedem Typ an, nämlich \lstinline{fread}-, \lstinline{fwrite}- und \lstinline{fseek}-Operation (\lstref{lst:des:posixops}).
-
-\begin{lstlisting}[language=C, belowcaptionskip=1\baselineskip, caption={POSIX-Operationen}\label{lst:des:posixops}]
-size_t fread(void *ptr, size_t size, size_t nmemb, FILE *stream);
-size_t fwrite(const void *ptr, size_t size, size_t nmemb, FILE *stream);
-int fseek(FILE *stream, long offset, int whence);
-\end{lstlisting}
-
-Die \lstinline{aid}, \lstinline{time_start} und \lstinline{time_stop} Elemente sind von Funktion her trivial. 
-ucaid ist als eine Zahl kodierter Operationstyp und ist ebenfalls trivial. 
-Spannend wird es bei \lstinline{parentArray} und \lstinline{attributeArray}.
-
-Das Attribute \lstinline{parentArray} verweist auf die Ausgangs-Aktivitäten, d. h. auf die Aktivitäten mit der der Zugriff auf eine bestimmte Datei begonnen hat.
-Bei POSIX handelt es sich typischerweise um die open-Aktivität.
-Die Aktivitäten mit dem gleichen parentArray bilden eine Gruppe und, wenn zeitlich angeordnet, eine Aktivitätensequenz auf eine bestimmte Datei.
-Wenn eine Datei mehrmals geöffnet wurde und die Zugriffe über verschiedene FileHandler erfolgen, dann sind auch die parentArray's unterschiedlich.
-Hat eine Aktivität keine Ausgangsaktivität, wie z. B. open-Aktivität, dann ist parentArray leer.
-
-
-Das Attribute attributeArray beinhaltet Informationen über den Systemaufruf.
-Das können die Funktionsparameter, der Rückgabewert, diverse Laufzeitinformationen usw. sein.
-Der Inhalt von attributeArray ist spezifisch für die E/A-Operation. 
-
-\begin{table}[h]
-	\centering
-	\begin{tabular}{l | l}
-		Attribute & Wert\\
-		\hline
-		POSIX/quantity/BytesToWrite & 4\\
-		POSIX/descriptor/FilePointer & 28317504\\
-		POSIX/data/MemoryAddress & 4233230\\
-		POSIX/quantity/BytesWritten & 4
-	\end{tabular}
-	\caption{Attribute und Beispielwerte einer write-Operation.}
-\end{table}
-
-\begin{table}[h]
-	\centering
-	\begin{tabular}{l | l}
-		Attribute & Wert\\
-		\hline
-		POSIX/quantity/BytesToRead & 100\\
-		POSIX/data/MemoryAddress & 22192128\\
-		POSIX/descriptor/filehandle & 0\\
-		POSIX/quantity/BytesRead & 100\\
-	\end{tabular}
-	\caption{Attribute und Beispielwerte einer read-Operation.}
-\end{table}
-
-\begin{table}[h]
-	\centering
-	\begin{tabular}{l | l}
-		Attribute & Wert\\
-		\hline
-		POSIX/descriptor/filehandle & 4\\
-		POSIX/file/position & 0\\
-	\end{tabular}
-	\caption{Attribute und Beispielwerte einer read-Operation.}
-\end{table}
-
-
-
-\section{Erzeugung von Aktivitätensequenzen}
-
-Die Offline-Analyse wird in drei Schritten durchgeführt.
-
-Im ersten Schritt werden die Aktivitäten einer Anwendung aufgezeichnet und in einer Spurdatei gespeichert \autoref{fig:des:get_trace}. 
-Dazu wir das Siox-Instrumentierungstool verwendet.
-\begin{figure}[h]
-	\centering
-	\input{pictures/gen_trace.tex}
-	\label{fig:des:get_trace}
-	\caption{Erstellung einer Spurdatei.}
-\end{figure}
-
-Im zweiten Schritt werden die Aktivitäten ausgewertet. 
-Dazu wird die erstellt Spurdatei mit siox-trace-reader eingelesen, der dann die Aktivitäten an den Analyse-Plugin weiterleitet.
-Das Plugin startet dann den Lernprozess.
-Die Ergenisse im diesen Schritt sind zwei Entscheidungsbäume: das eine für die Leistungsvorhersage und das andere für die Klassifizierung.
-
-\begin{figure}[h]
-	\centering
-	\input{pictures/gen_results.tex}
-	\label{fig:des:results}
-	\caption{Vorhersage}
-\end{figure}
-
-Im dritten Schritt wird wieder eine Spurdatei (die gleiche oder eine andere) eingelesen und vom Plugin ausgewertet.
-Die Ergebnisse sind Vorhersagen der Leistungswerte, Klassenzuordnung und Anomalien.
-
-Die Anomalien liefern Hinweise auf besondere Stellen.
-Diese Stellen werden untersucht und nach Möglichkeit Rückschlüsse gezogen.
-
 \subsection{Optimierungs/Wissenszyklus Abstrakt}
+
+Die E/A-Operationen werden vom Intrumentierer abgefangen, in die Aktivitäten umgewandelt und in einer Spurdatei gespeichert.
+Nach der Ausführung der Anwendung beinhaltet die Spurdatei eine Datensammlung, die von einer Analysesoftware verarbeitet werden kann.
+Die Analysesoftware lernt von den Daten und erstellt ein Modell, die Leistungswerte vorhersagen kann.
+Der Optimierer nutzt dieses Modell, um optimale Parameter zu bestimmen und der Anwendung zur Verfügung zu stellen.
+Die Anwendung nutzt diese Parameter für die E/A-Operationen.
+
+
+\begin{figure}[ht]
+	\centering
+	\input{pictures/optimization_cycle.tex}
+	\label{fig:des:opt_cycle}
+	\caption{Optimierungs- / Wissenszyklus}
+\end{figure}
+
+In dieser Arbeit wird allerding nicht der gesamte Zyklus bearbeitet.
+Dieser Zyklus setzt voraus, dass die Anwendung die optimalen Parameter nutzen kann. 
+Solche Anwendungen gibt es nocht.
+Die ersten theoretischen Ansätze für einen Optimierer wurde bereits in der Arbeit \todo{Referenz} behandelt und kann in den Zyklus leicht integriert werden.
+
+\subsection{Leistungsprädiktor}
 Die in der Arbeit verwendete Lehrnverfahren unterstützen keine Fortsetzung der Trainingsphase.
 D.h. es müssen erst die Trainingsdaten gesammelt werden und dann kann das Modell trainiert werden.
 Fertige Modelle können nachträglich mit weiteren Daten nicht verbessert werden.
@@ -151,7 +48,7 @@ Diese Eigenschaft der Lernverfahren spiegelt sich direkt in der Funktionsweise d
 In der ersten Phase \figref{fig:des:perf_training} erzeugt das Plugin aus der Aktivitätensequenz Trainingsdaten, trainiert damit die Modelle und speichert sie in einer Datei ab.
 In der zweiten Phase erzeugt das Plugin aus der Aktivitätensequenz eine Testmenge und wendet sie an.
 
-\begin{figure}[h]
+\begin{figure}[ht]
 	\hfill
 	\subfigure[Training]{
 		\input{pictures/perf_training}
@@ -167,7 +64,6 @@ In der zweiten Phase erzeugt das Plugin aus der Aktivitätensequenz eine Testmen
 	\caption{Arbeitsweise vom Leistungsprädiktor. In der Trainingsphase werden Daten gesammelt und das Modell trainiert. In der Analysephase wird das Modell zur Leistungsvorhersage, Anomalieerkennung und Statistikerzeugung verwendet.}
 \end{figure}
 
-\subsection{Leistungsprädiktor}
 Die grundlegende Aufgabe des Leistungsprädiktors die Informationen über den Systemzustand zu nutzen, um die Leistung vorherzusagen.
 Damit der Leistungsprädiktor seine Aufgabe erfüllen kann, wird eine Maschinenlernalgorithm benutzt, um ein Regressionsmodell zu trainieren.
 Das Modell wird dann in der Lage sein, die bereits bekannte Werte und neue Werte vorherzusagen.
@@ -177,6 +73,20 @@ Der Wertebereich kann in Intervalle geteilt werden und jedes Intervall bekommt s
 Der Nachteil bei dieser Vorhegensweise ist, dass keine neuen Werte vorhergesagt werden können.
 Der Vorteil wäre, man könnte auch beliebige Klassifikationsalgorithmen nutzen und den Lernvorgang beeinflussen.
 
+\subsection{Anzahl von Klassen}
+Die Leistungwerte in einer typischen Aktivitätensequenz weisen oft eine Struktur auf.
+Das kann man leicht sehen, wenn man die Leistungswerte aus der Aktivitätensequenz rauspickt, sortiert und in einem Graphen darstellt.
+Die Punkte verlaufen in Stufen.
+Jede dieser Stufen ist charakteristisch für den Zugriff auf eine bestimmte Komponente im Cachestack.
+Der Durchschinittswert der Leistungspunkte auf einer horizontalen Ebene ist dann die mittlere Zugriffszeite auf eine Komponente.
+Die Leistungspunkte zwischen den Ebenen sind Ausreisser und gehören zu den oberen Ebene.
+
+Für die erfolgreiche Stufenanalyse ist meistens alle Voraussetzungen gegeben.
+Die Aktivitätsmenge übersteigt typischerweise das Minimum um Größenordnungen.
+Die Zugriffe auf Daten werden typischerweise in der gesamten Cachestack gemacht, so dass man alle Stufen erkenen kann.
+
+Dieses Wissen erlaubt uns anhand des Leistungswerte die Komponente zu identifizieren, auf die Zugegriffen wird.
+Bei einer Optimierung kann daran sehen wie oft eine Komponente genutzt wird und wie sich die Programmänderungen auf die Nutzung von bestimmte Komponenten auswirken.
 
 
 
@@ -188,6 +98,19 @@ In ersten Phase wird der Trainingsset mit einem Clusteralgorithmus in Gruppen ei
 Daraus entsteht dann ein neues Trainingsset, der zweiten Phase vom Klassifizierungsalgorithmus erlernt wird.
 
 Die Gruppen müssen richtig bennant werden.
+                                                                                                                                                                                          
+%- unknown
+%- discarded
+%- cached CPU
+%- cached memory
+%- cached storage
+%- fast I/O
+%- normal I/O
+%- slow I/O
+%- unexpected fast
+%- unexpected between
+%- unexpected slow
+
 
 \begin{figure}[h]
 	\hfill
@@ -205,6 +128,8 @@ Die Gruppen müssen richtig bennant werden.
 	\caption{Arbeitsweise vom Ursachen-Klassifikator. In der ersten Trainingsphase werden Daten gesammelt und das Modell trainiert. In der Analysephase wird das Modell für die Gruppenzuordnung und die Statistikerzeugung verwendet.}
 \end{figure}
 
+
+
 \subsection{Ausgabe}
 Beispielausgabe\\
 k-Cross-Validation\\
@@ -212,7 +137,7 @@ E/A-Operationstypen\\
 Benennung der Gruppen (cached, uncached)\\
 Gruppen und Durchsatz
 
-\subsection{Anomalieerkennung}
+
 
 \subsection{Extraktion von Wissen}
 %Anomalien

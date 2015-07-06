@@ -5,8 +5,11 @@
 %\usepackage[showframe]{geometry}
 \usepackage{geometry}
 \usepackage{amsthm}
-\usepackage{hyperref}
+\usepackage{caption}
+%\usepackage{hyperref}
+\theoremstyle{definition}
 \newtheorem{term}{Definition}
+\newtheorem{exmp}{Beispiel}[section]
 
 % disable annoying marginpar warning
 \usepackage{silence}
@@ -21,13 +24,19 @@
 
 %\newgeometry{marginparsep=0mm, left=2cm,right=4cm,top=2cm,bottom=2cm}
 %\usepackage[textwidth=4cm]{todonotes}
-\usepackage[textwidth=2cm]{todonotes}
 %\setlength{\marginparwidth}{4cm}
+\usepackage[textwidth=2cm]{todonotes}
 \presetkeys{todonotes}{color=green!30,size=\scriptsize}{}
+
+\usepackage{algorithm}
+\usepackage{algorithmicx}
+\usepackage{algpseudocode}
 
 \usepackage{amsmath}
 \usepackage{mathrsfs}
 \usepackage{subfigure}
+\captionsetup[figure]{labelfont=it,textfont={it}}
+\captionsetup[subfigure]{labelfont=bf,textfont={bf,it},singlelinecheck=off,justification=raggedright}
 \usepackage{url}
 
 \usepackage{colortbl}
@@ -38,6 +47,7 @@
 %\definecolor{black}{rgb}{0,0,0}
 \definecolor{LightGray}{gray}{0.97}
 %\definecolor{White}{gray}{1.0}`
+
 
 \usepackage{listings}
 \lstset{
@@ -68,7 +78,7 @@
 \newcommand{\dir}{/home/joobog/git/masterthesis/thesis}
 
 \begin{document}
-\listoftodos
+%\listoftodos
 \newpage
 %\subimport{./}{plan}
 %\subimport{00_titlepage/}{titlepage}
@@ -80,7 +90,7 @@
 \subimport{04_basics/}{basics}
 \subimport{05_design/}{design}
 %\subimport{06_implementation/}{implementation}
-%\subimport{07_evaluation/}{evaluation}
+\subimport{07_evaluation/}{evaluation}
 %\subimport{08_conclusion/}{conclusion}
 %\bibliographystyle{ieeetr}
 \bibliography{09_literature/literature.bib}

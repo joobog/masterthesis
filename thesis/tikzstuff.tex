@@ -1,5 +1,6 @@
 \usepackage{tikz}
 \usepackage{pgfplots}
+\pgfplotsset{compat=1.12}
 \usetikzlibrary{arrows, positioning, er, fit, backgrounds,calc,shapes,decorations.pathreplacing}
 \usepgfmodule{shapes}
 \tikzstyle{every picture}+=[
@@ -23,7 +24,7 @@
 \tikzstyle{cloud} = [draw, ellipse,fill=red!20, node distance=3cm, minimum height=2em]
 \tikzstyle{flowchart} = [every node/.style={font=\scriptsize}]
 
-\tikzstyle{dtreenode} = [draw, align=center, ellipse, every node/.style={font=\scriptsize}]
+\tikzstyle{dtreenode} = [rectangle split,rectangle split parts=2, draw, align=center, every node/.style={font=\scriptsize}, rounded corners]
 \tikzstyle{root} = [fill=black!20, dtreenode]
 \tikzstyle{internal} = [fill=yellow!40, dtreenode]
 \tikzstyle{leaf} = [fill=red!40, dtreenode]

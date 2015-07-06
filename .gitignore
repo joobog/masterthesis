@@ -8,6 +8,8 @@
 *.vim
 *.bac
 *.tdo
+*.pdf
+*.out
 bullshit.tex
 *.latexmain
 *~
