@@ -1,0 +1,35 @@
+\begin{tikzpicture}[domain=0:11,smooth]
+  \begin{axis}[
+      width=6cm,height=6cm,
+      axis lines=middle,
+      domain=0:11,
+      smooth,
+      no markers,
+      %grid,
+      xmin=0,xmax=9,
+      tick style=black,
+      xtick={0, 2,...,8},
+      xlabel=$f_2$,
+      xlabel style={below, anchor=north east,inner xsep=-10pt},
+      restrict y to domain=0:11,
+      ymin=0,ymax=9,
+			ytick={0, 2,...,8},ylabel=$f_3$,
+      ylabel style={above,anchor=north east,inner ysep=-10pt},
+      samples=100
+    ]
+
+		\begin{pgfonlayer}{background}
+			\addplot[const plot mark mid, dashed] coordinates {(0, 4) (9, 4)};
+			\addplot[const plot mark mid, draw=none, fill=blue!30] coordinates {(2, 0) (2, 4) (0, 4) (0, 0)} \closedcycle;
+			\addplot[const plot mark mid, draw=none, fill=yellow!30] coordinates {(2, 0) (2, 4) (8, 4) (8, 0)} \closedcycle;
+			\addplot[const plot mark mid, draw=none, fill=red!30] coordinates {(0, 4) (8, 4) (8, 8) (0, 8)} \closedcycle;
+			\addplot[const plot mark mid] coordinates {(0, 4) (8, 4)};
+			\addplot[const plot mark mid] coordinates {(2, 4) (2, 0)};
+		\end{pgfonlayer}
+
+		\node[fill=white] at (axis cs:1, 2) {$A$};
+		\node[fill=white] at (axis cs:5, 2) {$B$};
+		\node[fill=white] at (axis cs:4, 6) {$C$};
+  \end{axis}
+
+\end{tikzpicture} 

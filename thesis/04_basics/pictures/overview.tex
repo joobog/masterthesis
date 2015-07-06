@@ -1,0 +1,53 @@
+\begin{tikzpicture}
+	[
+		remember picture,
+		>=latex reversed,
+		-<,
+		entity/.style={draw, fill=black!10, rounded corners, minimum height=1cm},
+		learnentity/.style={draw, blue, fill=yellow!10, rounded corners, minimum height=1cm},
+		gframe/.style={draw, rounded corners, dashed}
+	]
+	
+	\node
+		[entity]
+		(features)
+		{Features};
+	\node
+		[learnentity, minimum height=0.8cm, right=3.5cm of features]
+		(model)
+		{Modell};
+	\node
+		[learnentity, below=of model]
+		(alg)
+		{Algorithmus};
+	
+		\begin{pgfonlayer}{background}
+			\node
+			[entity, minimum width=3cm]
+			(model2)
+			at (model.center)
+			{} ;
+		\end{pgfonlayer}
+
+		\coordinate
+			[left=3.5cm of features]
+			(pstart);
+		\coordinate
+			[right=3.5cm of model]
+			(end);
+		\coordinate
+			[left=2.3cm of alg]
+			(tstart);
+
+		\path 
+		(pstart) edge node[above] {Domainobjekte} (features)
+			(features) edge node[above] (data) {Daten} (model2)
+			(alg) edge (model)
+			(model2) edge node[above] (output)  {Ausgabe} (end)
+			(tstart) edge[blue] node[above] (dataset) {\color{blue}Datensatz}  (alg);
+
+			\begin{pgfonlayer}{background}
+				\node[gframe, loosely dashed, fit=(data) (model) (model2) (output), label=above:{Aufgabe}] {};
+				\node[blue, gframe, fit=(dataset) (model) (alg), label=below:{\color{blue}Lernen} ] {};
+			\end{pgfonlayer}
+\end{tikzpicture}

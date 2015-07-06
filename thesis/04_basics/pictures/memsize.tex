@@ -1,0 +1,25 @@
+\begin{tikzpicture}
+	\begin{axis}[
+			height=6cm,
+			width=0.45\textwidth,
+			ybar,
+			ymode=log,
+			%log ticks with fixed point,
+			%extra tick style={grid=major},
+			ylabel={Cachegröße in $kB$},
+			symbolic x coords={L0, L1, L2, L3, L4, RAM},
+			xtick=data,
+			nodes near coords,
+			nodes near coords align={vertical}
+		]
+		\addplot+[point meta=explicit symbolic] coordinates 
+		{
+			(L0, 1.5) [1.5kB]
+			(L1, 32) [32kB] 
+			(L2, 128) [128kB]
+			(L3, 6144) [6MB]
+			(L4, 131072) [128MB]
+			(RAM, 8388608)[8GB]
+		};
+	\end{axis}
+\end{tikzpicture}

@@ -1,0 +1,61 @@
+
+\begin{tikzpicture}
+	[
+		level/.style={draw, fill=black!10, node distance=4pt, rounded corners}
+	]
+	\node
+	[level, minimum width=2cm]
+	(l0)
+	{L0-Cache};
+
+	\node
+	[level, minimum width=3cm, below=of l0]
+	(l1)
+	{L1-Cache};
+
+	\node
+	[level, minimum width=4cm, below=of l1]
+	(l2)
+	{L2-Cache};
+
+	\node
+	[level, minimum width=5cm, below=of l2]
+	(l3)
+	{L3-Cache};
+
+	\node
+	[level, minimum width=6cm, below=of l3]
+	(l4)
+	{L4-Cache};
+
+	\node
+	[level, minimum width=7cm, below=of l4]
+	(ram) 
+	{Arbeitspeicher};
+
+	\node
+	[level, minimum width=8cm, below=of ram]
+	(local)
+	{Lokale Datenträger};
+
+	\node
+	[level, minimum width=9cm, below=of local]
+	(ext)
+	{Angebundene Datenträger};
+
+	\path
+	[-]
+	(l0) edge (l1)
+	(l1) edge (l2)
+	(l2) edge (l3)
+	(l3) edge (l4)
+	(l4) edge (ram)
+	(ram) edge (local)
+	(local) edge (ext);
+
+	\node
+	[draw, dashed, fit=(l0) (l4), label=left:{CPU-Cache}]
+	(cpugroup)
+	{};
+	
+\end{tikzpicture}

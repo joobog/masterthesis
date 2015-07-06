@@ -3,20 +3,27 @@
 		remember picture,
 		>=latex reversed,
 		-<,
-		level/.style={sibling distance = 5cm/#1, level distance = 1.5cm}
+		level/.style={sibling distance = 6cm/#1, level distance = 2cm}
 	]
 	
-	\node[root](root){I1}
-	child{node[internal]{I2} 
-		child{node[leaf]{B1}}
-		child{node[internal]{I3}
-			child{node[leaf]{B2}}
-			child{node[leaf]{B3}}
-		}
+	\node[root](root){Wurzel \nodepart{two} $a=a_1$\\$t=t_1$}
+	child{node[internal]{Int. \nodepart{two} $a=a_2$\\$t=t_2$}  
+	child{node[leaf]{Blatt \nodepart{two} $y = y_1$} 
+	edge from parent node[left]{$f_{a_2}<t_2$}}
+			child{node[internal]{Int. \nodepart{two} $a=a_3$\\$t=t_3$}
+			child{node[leaf]{Blatt \nodepart{two} $y = y_2$} 
+			edge from parent node[left]{$f_{a_3} < t_3$}}
+				child{node[leaf]{Blatt \nodepart{two} $y = y_3$} 
+				edge from parent node[right]{$f_{a_3} \geq t_3$}}
+				edge from parent node[right]{$f_{a_2} \geq t_2$}}
+				edge from parent node[left]{$f_{a_1} < t_1$}
 	}
-	child{node[internal]{I4}
-		child{node[leaf]{B4}}
-		child{node[leaf]{B5}}
-	};
+	child{node[internal]{Int. \nodepart{two} $a = a_4$\\$t = t_4$}
+	child{node[leaf]{Blatt \nodepart{two} $y = y_4$} 
+	edge from parent node[left]{$f_{a_4} < t_4$}}
+		child{node[leaf]{Blatt\nodepart{two} $y = y_5$} 
+		edge from parent node[right]{$f_{a_4} \geq t_4$}}
+		edge from parent node[right]{$f_{a_1} \geq t_1$}};
 
-\end{tikzpicture}
+
+	\end{tikzpicture}

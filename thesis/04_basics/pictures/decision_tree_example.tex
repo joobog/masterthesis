@@ -1,0 +1,20 @@
+\begin{tikzpicture}
+	[
+		remember picture,
+		>=latex reversed,
+		-<,
+		level/.style={sibling distance = 6cm/#1, level distance = 2cm}
+	]
+	
+	\node[root](root){Wurzel \nodepart{two} $a=3$\\$t=4$}
+	child{node[internal]{Int. \nodepart{two} $a=2$\\$t=2$}  
+	child{node[leaf]{Blatt \nodepart{two} $y = A$} 
+			edge from parent node[left]{$f_2<2$}}
+			child{node[leaf]{Blatt \nodepart{two} $y = B$}
+			edge from parent node[right]{$f_2 \geq 2$}}
+		edge from parent node[left]{$f_3 < 4$}
+	}
+	child{node[leaf]{Blatt \nodepart{two} $y = C$}
+		edge from parent node[right]{$f_3 \geq 4$}};
+
+	\end{tikzpicture}
